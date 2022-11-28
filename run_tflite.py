@@ -9,6 +9,8 @@ import pickle
 import numpy
 sys.path.insert(0, '/home/carol/libLogHelper/build')
 import log_helper as lh
+from logger import Logger
+Logger.setLevel(Logger.Level.TIMING)
 
 if __name__ == '__main__':
     if len(sys.argv) < 7:
@@ -52,16 +54,17 @@ if __name__ == '__main__':
     #start=time.time()
     i = 0
     while i < iterations:
+        Logger.info(f"Iteration {i}")
         lh.start_iteration()
-        nn_exec_time=0
-        t0=time.time()
+        #nn_exec_time=0
+        #t0=time.time()
         for j in range(100000):
             input_data = tf.cast(obs.reshape(1, -1),tf.float32)
             interpreter.set_tensor(input_details[0]['index'], input_data)
-            t1=time.time()
+            #t1=time.time()
             interpreter.invoke()
-            t2=time.time()
-            nn_exec_time+=(t2-t1)
+            #t2=time.time()
+            #nn_exec_time+=(t2-t1)
             output_data = interpreter.get_tensor(output_details[0]['index'])
             #t3=time.time()
             obs, reward, done, info = env.step(output_data)
@@ -85,9 +88,9 @@ if __name__ == '__main__':
                 obs=env.reset()
                 #end=time.time()
                 #print(end - start)
-                lh.end_iteration()
-                t3=time.time()
-                print(nn_exec_time/(t3-t0))
+                #lh.end_iteration()
+                #t3=time.time()
+                #print(nn_exec_time/(t3-t0))
                 i+=1
                 if generate == 1:
                     pickle.dump([info,reward],gold)
@@ -97,7 +100,9 @@ if __name__ == '__main__':
                     if not (all([x==y for x,y in zip(golden[0],info)]) and golden[1] == reward):
                         error_detail = f"info: {info} expected info: {golden[0]} reward: {reward} expected reward: {golden[1]}"
                         lh.log_error_detail(error_detail)
-                        print(error_detail)
+                        log_error_count(1)
+                        Logger.error(error_detail)
+                lh.end_iteration()
                 break
 
 
