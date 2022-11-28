@@ -1,6 +1,6 @@
 import sys
 import gym
-
+import random
 from stable_baselines3 import SAC
 
 # This is here so as to generate a model.zip file; I don't tune the parameters or even expect it to
@@ -24,16 +24,21 @@ if __name__ == '__main__':
 
     model_save_file = model_prefix + ".zip"
     env = gym.make(env_name)
+    env.seed(0)
+    random.seed(0)
+    env.seed(0)
+    #tf.keras.utils.set_random_seed(1)
+    #tf.config.experimental.enable_op_determinism()
+
     env.reset()
-    env.render()
+    #env.render()
 
     nn = [n_nodes_per_layer for i in range(n_hidden_layers)]
     print("nn: {}".format(nn))
     # "pi=[]" is an array of widths for the created policy/actor network, qf is for critic
     model = SAC('MlpPolicy', env, verbose=1,
-                policy_kwargs=dict(net_arch=dict(pi=nn, qf=[64, 64]))
+                seed=0
                )
-    model.learn(total_timesteps=250)
+    model.learn(total_timesteps=50000)
     # model.learn(total_timesteps=250_000)
     model.save(model_save_file)
-

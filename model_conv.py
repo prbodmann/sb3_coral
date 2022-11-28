@@ -41,6 +41,8 @@ if __name__ == '__main__':
 
     print('Creating gym to gather observation sample...')
     env = gym.make(env_name)
+    env.seed(0)
+    
     obs = env.observation_space
     # Awkward reshape: https://github.com/onnx/onnx-tensorflow/issues/400
     dummy_input = torch.FloatTensor(obs.sample().reshape(1, -1))
@@ -80,8 +82,7 @@ if __name__ == '__main__':
     def representative_data_gen():
         global obs
         for i in range(100000):
-            yield [obs.sample().reshape(1, -1)]
-
+            yield [tf.cast(obs.sample().reshape(1, -1),tf.float32)]
     converter_quant = tf.lite.TFLiteConverter.from_saved_model(model_prefix)
     converter_quant.optimizations = [tf.lite.Optimize.DEFAULT]
     converter_quant.representative_dataset = representative_data_gen
@@ -89,13 +90,13 @@ if __name__ == '__main__':
     converter_quant.target_spec.supported_types = [tf.int8]
     # Just accept that observations and actions are inherently floaty, let Coral handle that on the CPU
     converter_quant.inference_input_type = tf.float32
-    converter_quant.inference_output_type = tf.float32
+    ##############converter_quant.inference_output_type = tf.uint8
     tflite_quant_model = converter_quant.convert()
     with open(tflite_quant_save_file, 'wb') as f:
         f.write(tflite_quant_model)
 
-    print('Converting TFLite [nonquant] to Coral...')
-    system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_save_file)
+    #print('Converting TFLite [nonquant] to Coral...')
+    #system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_save_file)
 
-    print('Converting TFLite [quant] to Coral...')
-    system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_quant_save_file)
+    #print('Converting TFLite [quant] to Coral...')
+    #system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_quant_save_file)

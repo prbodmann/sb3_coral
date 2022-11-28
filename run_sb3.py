@@ -6,6 +6,7 @@ from stable_baselines3 import SAC
 if __name__ == '__main__':
     env_name = 'MountainCarContinuous-v0'
     model_prefix = 'model'
+    seed=int(sys.argv[3])
     if len(sys.argv) < 3:
         print("Usage: " + str(sys.argv[0]) + " <envname> <model_prefix>")
         print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
@@ -15,6 +16,7 @@ if __name__ == '__main__':
     model_save_file = model_prefix + ".zip"
 
     env = gym.make(env_name)
+    env.seed(seed)
     obs = env.reset()
 
     model = SAC.load(model_save_file, env)
@@ -22,8 +24,11 @@ if __name__ == '__main__':
     for i in range(100000):
         action, _state = model.predict(obs, deterministic=True)
         obs, reward, done, info = env.step(action)
-        env.render()
+        #env.render()
         if done:
+            print(reward)
+            print(obs)
+            print(info)
+            env.seed(seed)
             obs = env.reset()
-
-
+            break
