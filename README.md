@@ -41,10 +41,10 @@ python3 ./model_conv.py
 python3 ./run_sb3.py
 # Run the onnx model
 python3 ./run_onnx.py
-# Run the TFLite model
-python3 ./run_tflite.py
-# Run the Coral model ["edgetpu" in the name will attempt to load Coral]
-python3 ./run_tflite.py MountainCarContinuous-v0 model_quant_edgetpu
+# Run comparing only the fnal state
+MODEL=Walker2d-v3;LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python run_tflite.py ${MODEL} ${MODEL}_quant_edgetpu 1212121212 10 ${MODEL}_gold.bin 0
+# Run comparing the state on each step
+MODEL=Walker2d-v3;LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python run_tflite2.py ${MODEL} ${MODEL}_quant_edgetpu 1212121212 10 ${MODEL}_gold.bin 0
 ```
 
 ## Benchmarking
