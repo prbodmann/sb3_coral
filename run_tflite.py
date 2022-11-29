@@ -29,7 +29,7 @@ if __name__ == '__main__':
     #delegates = None
     #if 'edgetpu' in model_save_file:
     #    print("using tpu")
-    delegates = [tflite.load_delegate('libedgetpu.so.1')]
+    #delegates = [tflite.load_delegate('libedgetpu.so.1')]
     #tf.config.threading.set_intra_op_parallelism_threads(1)
     env = gym.make(env_name)
     random.seed(seed)
@@ -37,7 +37,9 @@ if __name__ == '__main__':
     #tf.keras.utils.set_random_seed(seed)
     #tf.config.experimental.enable_op_determinism()
     obs = env.reset()
-    interpreter = tflite.Interpreter(model_path=model_save_file, experimental_delegates=delegates,num_threads=1)
+    #interpreter = tflite.Interpreter(model_path=model_save_file, experimental_delegates=delegates,num_threads=1)
+    from pycoral.utils.edgetpu import make_interpreter
+    interpreter = make_interpreter(model_file)
     interpreter.allocate_tensors()
     lh.start_log_file(env_name, f"repetition:{iterations}")
     # Get input and output tensors.
