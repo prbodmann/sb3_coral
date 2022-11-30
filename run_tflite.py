@@ -31,7 +31,7 @@ if __name__ == '__main__':
     random.seed(seed)
     env.seed(seed)
     obs = env.reset()
-    interpreter = make_interpreter(model_file)
+    interpreter = make_interpreter(model_save_file)
     interpreter.allocate_tensors()
     lh.start_log_file(env_name, f"repetition:{iterations}")
     # Get input and output tensors.
@@ -59,8 +59,8 @@ if __name__ == '__main__':
             output_data = interpreter.get_tensor(output_details[0]['index'])
             obs, reward, done, info = env.step(output_data)
             if done:
-                #if i == 3:
-                #    reward += 1
+                if i == 3:
+                    reward += 1
                 random.seed(seed)
                 env.seed(seed)
                 obs=env.reset()
@@ -74,8 +74,8 @@ if __name__ == '__main__':
                     if not (all([x==y for x,y in zip(golden[0],info)]) and golden[1] == reward):
                         error_detail = f"info: {info} expected info: {golden[0]} reward: {reward} expected reward: {golden[1]}"
                         lh.log_error_detail(error_detail)
-                        log_error_count(1)
                         Logger.error(error_detail)
+                        lh.log_error_count(1)
                 lh.end_iteration()
                 break
 

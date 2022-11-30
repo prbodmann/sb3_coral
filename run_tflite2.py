@@ -55,7 +55,7 @@ if __name__ == '__main__':
             #t1=time.time()
             interpreter.invoke()
             #t2=time.time()
-            nn_exec_time+=(t2-t1)
+            #nn_exec_time+=(t2-t1)
             output_data = interpreter.get_tensor(output_details[0]['index'])
             obs, reward, done, info = env.step(output_data)
             #if i == 4 and j == 50:
