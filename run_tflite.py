@@ -10,6 +10,8 @@ import numpy
 sys.path.insert(0, '/home/carol/libLogHelper/build')
 import log_helper as lh
 from logger import Logger
+from pycoral.utils.edgetpu import make_interpreter
+
 Logger.setLevel(Logger.Level.TIMING)
 
 if __name__ == '__main__':
@@ -25,35 +27,22 @@ if __name__ == '__main__':
         gold_file = sys.argv[5]
         generate = int(sys.argv[6])
     model_save_file = model_prefix + ".tflite"
-    
-    #delegates = None
-    #if 'edgetpu' in model_save_file:
-    #    print("using tpu")
-    #delegates = [tflite.load_delegate('libedgetpu.so.1')]
-    #tf.config.threading.set_intra_op_parallelism_threads(1)
     env = gym.make(env_name)
     random.seed(seed)
     env.seed(seed)
-    #tf.keras.utils.set_random_seed(seed)
-    #tf.config.experimental.enable_op_determinism()
     obs = env.reset()
-    #interpreter = tflite.Interpreter(model_path=model_save_file, experimental_delegates=delegates,num_threads=1)
-    from pycoral.utils.edgetpu import make_interpreter
     interpreter = make_interpreter(model_file)
     interpreter.allocate_tensors()
     lh.start_log_file(env_name, f"repetition:{iterations}")
     # Get input and output tensors.
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
-    #input_details=tf.cast(input_details,tf.float32)
     if generate == 1:
         gold = open(gold_file,'wb') 
        
     else:
         gold = open(gold_file,'rb')
         golden = pickle.load(gold)
-        
-    #start=time.time()
     i = 0
     while i < iterations:
         Logger.info(f"Iteration {i}")
@@ -68,29 +57,13 @@ if __name__ == '__main__':
             #t2=time.time()
             #nn_exec_time+=(t2-t1)
             output_data = interpreter.get_tensor(output_details[0]['index'])
-            #t3=time.time()
             obs, reward, done, info = env.step(output_data)
-            #t4=time.time()
-            #print(obs)
-            #print(reward)
-            #print(info)
-            #env.render()
-            #print(f"NN:{t2-t1} env: {t4-t3}")
             if done:
-                #obs = env.reset()
-                #print(obs)
-                #print(reward)
-                #print(info)
                 #if i == 3:
                 #    reward += 1
                 random.seed(seed)
                 env.seed(seed)
-                #tf.keras.utils.set_random_seed(seed)
-                #tf.config.experimental.enable_op_determinism()
                 obs=env.reset()
-                #end=time.time()
-                #print(end - start)
-                #lh.end_iteration()
                 #t3=time.time()
                 #print(nn_exec_time/(t3-t0))
                 i+=1
@@ -98,7 +71,6 @@ if __name__ == '__main__':
                     pickle.dump([info,reward],gold)
                     exit(0)
                 else: 
-                    #print([x==y for x,y in zip(golden[0],obs)])
                     if not (all([x==y for x,y in zip(golden[0],info)]) and golden[1] == reward):
                         error_detail = f"info: {info} expected info: {golden[0]} reward: {reward} expected reward: {golden[1]}"
                         lh.log_error_detail(error_detail)
