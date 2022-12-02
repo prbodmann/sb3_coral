@@ -45,9 +45,9 @@ if __name__ == '__main__':
     i = 0
     while i < iterations:
         Logger.info(f"Iteration {i}")
+        error_detail=[]
         lh.start_iteration()
         #nn_exec_time=0
-        err_count=0
         #t0=time.time()
         for j in range(100000):
             input_data = tf.cast(obs.reshape(1, -1),tf.float32)
@@ -58,21 +58,21 @@ if __name__ == '__main__':
             #nn_exec_time+=(t2-t1)
             output_data = interpreter.get_tensor(output_details[0]['index'])
             obs, reward, done, info = env.step(output_data)
-            #if i == 4 and j == 50:
+            #if i == 4 and (j == 50 or j == 55):
             #    reward+=1
             if generate == 1:
                 golden.append([info,reward])
             else: 
                 if not (all([x==y for x,y in zip(golden[j][0],info)]) and golden[j][1] == reward):
                     if done:
-                        error_detail="Final State: "
+                        error_detail_init="Final State: "
                     else:
-                        error_detail="Intermediate State: "
-                    error_detail += f"step: {j} info: {info} expected info: {golden[j][0]} reward: {reward} expected reward: {golden[j][1]}"
-                    lh.log_error_detail(error_detail)
-                    Logger.error(error_detail)
-                    err_count+=1
+                        error_detail_init="Intermediate State {j}: "
+                    error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}")
+                    #lh.log_error_detail(error_detail)
+                    Logger.error(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}")
             if done:
+                lh.end_iteration()
                 if generate:
                     Logger.info("Golden created successfully")
                     pickle.dump(golden,gold)
@@ -83,9 +83,10 @@ if __name__ == '__main__':
                 #t3=time.time()
                 #print(nn_exec_time/(t3-t0))
                 i+=1
-                if err_count !=0:
-                    lh.log_error_count(int(err_count))
-                lh.end_iteration()
+                if len(error_detail) !=0:
+                    for k in error_detail:
+                        lh.log_error_detail(k)
+                    lh.log_error_count(len(error_detail))
                 break
 
 

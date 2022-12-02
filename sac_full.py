@@ -59,6 +59,7 @@ if __name__ == '__main__':
             output_data = interpreter.get_tensor(output_details[0]['index'])
             obs, reward, done, info = env.step(output_data)
             if done:
+                lh.end_iteration()
                 if i == 3:
                     reward += 1
                 random.seed(seed)
@@ -76,7 +77,5 @@ if __name__ == '__main__':
                         lh.log_error_detail(error_detail)
                         Logger.error(error_detail)
                         lh.log_error_count(1)
-                lh.end_iteration()
                 break
-
 
