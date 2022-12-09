@@ -1,0 +1,50 @@
+[
+  {
+    "killcmd": "killall -9 sac_ind_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_ind_step.py Ant-v3 /home/carol/sb3_to_coral/Ant-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Ant-v3_sac_ind_step_input.bin /home/carol/sb3_to_coral/Ant-v3_sac_ind_step_gold.bin 0",
+    "codename": "Ant-v3_ind_step",
+    "header": "Ant-v3 /home/carol/sb3_to_coral/Ant-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Ant-v3_sac_ind_step_input.bin /home/carol/sb3_to_coral/Ant-v3_sac_ind_step_gold.bin 0"
+  },
+  {
+    "killcmd": "killall -9 sac_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_step.py Ant-v3 /home/carol/sb3_to_coral/Ant-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Ant-v3_sac_step_gold.bin 0",
+    "codename": "Ant-v3_step",
+    "header": "Ant-v3 /home/carol/sb3_to_coral/Ant-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Ant-v3_sac_step_gold.bin 0"
+  },
+  {
+    "killcmd": "killall -9 sac_ind_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_ind_step.py Hopper-v3 /home/carol/sb3_to_coral/Hopper-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Hopper-v3_sac_ind_step_input.bin /home/carol/sb3_to_coral/Hopper-v3_sac_ind_step_gold.bin 0",
+    "codename": "Hopper-v3_ind_step",
+    "header": "Hopper-v3 /home/carol/sb3_to_coral/Hopper-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Hopper-v3_sac_ind_step_input.bin /home/carol/sb3_to_coral/Hopper-v3_sac_ind_step_gold.bin 0"
+  },
+  {
+    "killcmd": "killall -9 sac_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_step.py Hopper-v3 /home/carol/sb3_to_coral/Hopper-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Hopper-v3_sac_step_gold.bin 0",
+    "codename": "Hopper-v3_step",
+    "header": "Hopper-v3 /home/carol/sb3_to_coral/Hopper-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Hopper-v3_sac_step_gold.bin 0"
+  },
+   {
+    "killcmd": "killall -9 sac_ind_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_ind_step.py Humanoid-v3 /home/carol/sb3_to_coral/Humanoid-v3_quant_edgetpu 7 1000000000 /home/carol/sb3_to_coral/Humanoid-v3_sac_ind_step_input.bin /home/carol/sb3_to_coral/Humanoid-v3_sac_ind_step_gold.bin 0",
+    "codename": "Humanoid-v3_ind_step",
+    "header": "Humanoid-v3 /home/carol/sb3_to_coral/Humanoid-v3_quant_edgetpu 7 1000000000 /home/carol/sb3_to_coral/Humanoid-v3_sac_ind_step_input.bi /home/carol/sb3_to_coral/Humanoid-v3_sac_ind_step_gold.bin 0"
+  },
+  {
+    "killcmd": "killall -9 sac_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python s/home/carol/sb3_to_coral/ac_step.py Humanoid-v3 /home/carol/sb3_to_coral/Humanoid-v3_quant_edgetpu 7 1000000000 /home/carol/sb3_to_coral/Humanoid-v3_sac_step_gold.bin 0",
+    "codename": "Humanoid-v3_step",
+    "header": "Humanoid-v3 /home/carol/sb3_to_coral/Humanoid-v3_quant_edgetpu 7 1000000000 /home/carol/sb3_to_coral/Humanoid-v3_sac_step_gold.bin 0"
+  },
+  {
+    "killcmd": "killall -9 sac_ind_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_ind_step.py Swimmer-v3 /home/carol/sb3_to_coral/Swimmer-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Swimmer-v3_sac_ind_step_input.bin /home/carol/sb3_to_coral/Swimmer-v3_sac_ind_step_gold.bin 0",
+    "codename": "Swimmer-v3_ind_step",
+    "header": "Swimmer-v3 /home/carol/sb3_to_coral/Swimmer-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Swimmer-v3_sac_ind_step_input.bin /home/carol/sb3_to_coral/Swimmer-v3_sac_ind_step_gold.bin 0"
+  },
+  {
+    "killcmd": "killall -9 sac_step.py",
+    "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_step.py Swimmer-v3 /home/carol/sb3_to_coral/Swimmer-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Swimmer-v3_sac_step_gold.bin 0",
+    "codename": "Swimmer-v3_step",
+    "header": "Swimmer-v3 /home/carol/sb3_to_coral/Swimmer-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Swimmer-v3_sac_step_gold.bin 0"
+  },
+]
