@@ -46,5 +46,5 @@
     "exec": "LD_PRELOAD=/lib/aarch64-linux-gnu/libglapi.so.0 python /home/carol/sb3_to_coral/sac_step.py Swimmer-v3 /home/carol/sb3_to_coral/Swimmer-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Swimmer-v3_sac_step_gold.bin 0",
     "codename": "Swimmer-v3_step",
     "header": "Swimmer-v3 /home/carol/sb3_to_coral/Swimmer-v3_quant_edgetpu 1212121212 1000000000 /home/carol/sb3_to_coral/Swimmer-v3_sac_step_gold.bin 0"
-  },
+  }
 ]
