@@ -67,7 +67,7 @@ if __name__ == '__main__':
                     if done:
                         error_detail_init="Final State: "
                     else:
-                        error_detail_init="Intermediate State {j}: "
+                        error_detail_init=f"Intermediate State {j}: "
                     error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}")
                     #lh.log_error_detail(error_detail)
                     Logger.error(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}")
