@@ -1,6 +1,7 @@
+import mujoco_py
+import gym
 import sys
 import os
-import gym
 import tflite_runtime.interpreter as tflite
 import tensorflow as tf
 import random
