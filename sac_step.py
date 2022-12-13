@@ -65,7 +65,7 @@ if __name__ == '__main__':
             else: 
                 if not (all([x==y for x,y in zip(golden[j][0],info)]) and golden[j][1] == reward):
                     if done:
-                        error_detail_init="Final State: "
+                        error_detail_init=f"Final State {j}: "
                     else:
                         error_detail_init=f"Intermediate State {j}: "
                     error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}")
