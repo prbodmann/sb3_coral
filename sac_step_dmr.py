@@ -67,8 +67,8 @@ while i < iterations:
         golden = interpreter2.get_tensor(output_details[0]['index'])
         #how to choose which one is correct??
         obs, reward, done, info = env.step(output_data)
-        print([x==y for x,y in zip(golden,output_data)])
-        if not (all([x==y for x,y in zip(golden,output_data)])):
+        
+        if not (output_data==golden).all():
             if done:
               error_detail_init=f"Final State {j}: "
             else:
