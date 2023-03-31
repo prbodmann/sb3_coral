@@ -70,25 +70,25 @@ while i < iterations:
                     error_detail_init=f"Final State {j}: "
                 else:
                     error_detail_init=f"Intermediate State {j}: "
-                error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}")
+                error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
                 #lh.log_error_detail(error_detail)
-                Logger.error(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}")
-        if done:
-            lh.end_iteration()
-            if generate:
-                Logger.info("Golden created successfully")
-                pickle.dump(golden,gold)
-                exit(0)
-            random.seed(seed)
-            env.seed(seed)
-            obs=env.reset()
-            #t3=time.time()
-            #print(nn_exec_time/(t3-t0))
-            i+=1
-            if len(error_detail) !=0:
-                for k in error_detail:
-                    lh.log_error_detail(k)
-                lh.log_error_count(len(error_detail))
+                Logger.error(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
+        if done:            
             break
+    lh.end_iteration()
+    if generate:
+        Logger.info("Golden created successfully")
+        pickle.dump(golden,gold)
+        exit(0)
+    random.seed(seed)
+    env.seed(seed)
+    obs=env.reset()
+    #t3=time.time()
+    #print(nn_exec_time/(t3-t0))
+    i+=1
+    if len(error_detail) !=0:
+        for k in error_detail:
+            lh.log_error_detail(k)
+        lh.log_error_count(len(error_detail))
 
 
