@@ -16,9 +16,9 @@ from logger import Logger
 from pycoral.utils.edgetpu import make_interpreter
 Logger.setLevel(Logger.Level.TIMING)
 
-def thread_func(interpreter, image, id):
-
-
+def thread_func(interpreter, input_data, input_details):
+    interpreter=.invoke()
+    interpreter.set_tensor(input_details[0]['index'], input_data)
 
 if len(sys.argv) < 5:
     print("Usage: " + str(sys.argv[0]) + " <envname> <model_prefix> <seed> <iterations>")
@@ -54,23 +54,24 @@ while i < iterations:
     #t0=time.time()
     for j in range(100000):
         input_data = tf.cast(obs.reshape(1, -1),tf.float32)
-        interpreter1.set_tensor(input_details[0]['index'], input_data)
-        interpreter2.set_tensor(input_details[0]['index'], input_data)
-        #t1=time.time()
-        interpreter1.invoke()
-        interpreter2.invoke()
+        t1=Thread(target=thread_func, args=(interpreter1,input_data,input_details))
+        t2=Thread(target=thread_func, args=(interpreter2,input_data,input_details))
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
         #t2=time.time()
         #nn_exec_time+=(t2-t1)
         output_data = interpreter1.get_tensor(output_details[0]['index'])
         golden = interpreter2.get_tensor(output_details[0]['index'])
         if not (all([x==y for x,y in zip(golden[j][0],info)]) and golden[j][1] == reward):
-              if done:
-                  error_detail_init=f"Final State {j}: "
-              else:
-                  error_detail_init=f"Intermediate State {j}: "
-              error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
-              #lh.log_error_detail(error_detail)
-              Logger.error(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
+            if done:
+              error_detail_init=f"Final State {j}: "
+            else:
+              error_detail_init=f"Intermediate State {j}: "
+            error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
+            #lh.log_error_detail(error_detail)
+            Logger.error(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
         #how to choose which one is correct??
         obs, reward, done, info = env.step(output_data)
         #if i == 4 and (j == 50 or j == 55):
