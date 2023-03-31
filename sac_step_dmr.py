@@ -65,16 +65,17 @@ while i < iterations:
         #nn_exec_time+=(t2-t1)
         output_data = interpreter1.get_tensor(output_details[0]['index'])
         golden = interpreter2.get_tensor(output_details[0]['index'])
-        if not (all([x==y for x,y in zip(golden[j][0],info)]) and golden[j][1] == reward):
+        #how to choose which one is correct??
+        obs, reward, done, info = env.step(output_data)
+        if not (all([x==y for x,y in zip(golden,output_data)])):
             if done:
               error_detail_init=f"Final State {j}: "
             else:
               error_detail_init=f"Intermediate State {j}: "
-            error_detail.append(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
+            error_detail.append(error_detail_init+f"got from tpu 0: {output_data} and got from tpu 1: {golden}.")
             #lh.log_error_detail(error_detail)
-            Logger.error(error_detail_init+f"got info: {info} expected info: {golden[j][0]} and got reward: {reward} expected reward: {golden[j][1]}. Got output: {output_data}")
-        #how to choose which one is correct??
-        obs, reward, done, info = env.step(output_data)
+            Logger.error(error_detail_init+f"got from tpu 0: {output_data} and got from tpu 1: {golden}")
+        #save env output?
         #if i == 4 and (j == 50 or j == 55):
         #    reward+=1
         if done:            
