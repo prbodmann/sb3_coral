@@ -17,8 +17,9 @@ from pycoral.utils.edgetpu import make_interpreter
 Logger.setLevel(Logger.Level.TIMING)
 
 def thread_func(interpreter, input_data, input_details):
-    interpreter=.invoke()
+    
     interpreter.set_tensor(input_details[0]['index'], input_data)
+    interpreter.invoke()
 
 if len(sys.argv) < 5:
     print("Usage: " + str(sys.argv[0]) + " <envname> <model_prefix> <seed> <iterations>")
