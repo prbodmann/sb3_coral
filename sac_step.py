@@ -33,6 +33,7 @@ env.seed(seed)
 obs = env.reset()
 interpreter = make_interpreter(model_save_file)
 interpreter.allocate_tensors()
+lh.set_max_errors_iter(1001)
 lh.start_log_file(env_name, f"repetition:{iterations}")
 # Get input and output tensors.
 input_details = interpreter.get_input_details()
@@ -63,6 +64,7 @@ while i < iterations:
         #if i == 4 and (j == 50 or j == 55):
         #    reward+=1
         if generate == 1:
+            print(j)
             golden.append([info,reward])
         else: 
             if not (all([x==y for x,y in zip(golden[j][0],info)]) and golden[j][1] == reward):
