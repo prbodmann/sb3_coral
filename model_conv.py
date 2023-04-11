@@ -24,79 +24,80 @@ class OnnxablePolicy(torch.nn.Module):
 
 
 if __name__ == '__main__':
-    env_name = 'MountainCarContinuous-v0'
-    model_prefix = 'model'
+    with tf.device('/gpu:0'):
+        env_name = 'MountainCarContinuous-v0'
+        model_prefix = 'model'
 
-    if len(sys.argv) < 3:
-        print("Usage: " + str(sys.argv[0]) + " <envname> <model_prefix>")
-        print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
-    else:
-        env_name = sys.argv[1]
-        model_prefix = sys.argv[2]
+        if len(sys.argv) < 3:
+            print("Usage: " + str(sys.argv[0]) + " <envname> <model_prefix>")
+            print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
+        else:
+            env_name = sys.argv[1]
+            model_prefix = sys.argv[2]
 
-    model_save_file = model_prefix + '.zip'
-    onnx_save_file = model_prefix + '.onnx'
-    tflite_save_file = model_prefix + '.tflite'
-    tflite_quant_save_file = model_prefix + '_quant.tflite'
+        model_save_file = model_prefix + '.zip'
+        onnx_save_file = model_prefix + '.onnx'
+        tflite_save_file = model_prefix + '.tflite'
+        tflite_quant_save_file = model_prefix + '_quant.tflite'
 
-    print('Creating gym to gather observation sample...')
-    env = gym.make(env_name)
-    env.seed(0)
-    
-    obs = env.observation_space
-    # Awkward reshape: https://github.com/onnx/onnx-tensorflow/issues/400
-    dummy_input = torch.FloatTensor(obs.sample().reshape(1, -1))
+        print('Creating gym to gather observation sample...')
+        env = gym.make(env_name)
+        env.seed(0)
 
-    print('Loading existing SB3 model...')
-    model = SAC.load(model_save_file, env, verbose=True)
+        obs = env.observation_space
+        # Awkward reshape: https://github.com/onnx/onnx-tensorflow/issues/400
+        dummy_input = torch.FloatTensor(obs.sample().reshape(1, -1))
 
-    print('Exporting to ONNX...')
-    onnxable_model = OnnxablePolicy(model.policy.actor)
-    model.policy.to("cpu")
-    model.policy.eval()
-    print(str(onnxable_model.actor))
-    # torchsummary.summary(model.policy.actor, input_size=len(dummy_input))
+        print('Loading existing SB3 model...')
+        model = SAC.load(model_save_file, env, verbose=True)
 
-    torch.onnx.export(onnxable_model, dummy_input, onnx_save_file,
-                      input_names=['input'],
-                      output_names=['output'],
-                      opset_version=9, verbose=True)
+        print('Exporting to ONNX...')
+        onnxable_model = OnnxablePolicy(model.policy.actor)
+        model.policy.to("cpu")
+        model.policy.eval()
+        print(str(onnxable_model.actor))
+        # torchsummary.summary(model.policy.actor, input_size=len(dummy_input))
 
-    print('Loading ONNX and checking...')
-    onnx_model = onnx.load(onnx_save_file)
-    onnx.checker.check_model(onnx_model)
-    print(onnx.helper.printable_graph(onnx_model.graph))
+        torch.onnx.export(onnxable_model, dummy_input, onnx_save_file,
+                        input_names=['input'],
+                        output_names=['output'],
+                        opset_version=9, verbose=True)
 
-    print('Converting ONNX to TF...')
-    tf_rep = onnx_tf.backend.prepare(onnx_model)
-    tf_rep.export_graph(model_prefix)
+        print('Loading ONNX and checking...')
+        onnx_model = onnx.load(onnx_save_file)
+        onnx.checker.check_model(onnx_model)
+        print(onnx.helper.printable_graph(onnx_model.graph))
 
-    print('Converting TF to TFLite...')
-    converter = tf.lite.TFLiteConverter.from_saved_model(model_prefix)
-    tflite_model = converter.convert()
-    with open(tflite_save_file, 'wb') as f:
-        f.write(tflite_model)
+        print('Converting ONNX to TF...')
+        tf_rep = onnx_tf.backend.prepare(onnx_model)
+        tf_rep.export_graph(model_prefix)
 
-    print('Converting TF to Quantised TFLite...')
+        print('Converting TF to TFLite...')
+        converter = tf.lite.TFLiteConverter.from_saved_model(model_prefix)
+        tflite_model = converter.convert()
+        with open(tflite_save_file, 'wb') as f:
+            f.write(tflite_model)
 
-    def representative_data_gen():
-        global obs
-        for i in range(100000):
-            yield [tf.cast(obs.sample().reshape(1, -1),tf.float32)]
-    converter_quant = tf.lite.TFLiteConverter.from_saved_model(model_prefix)
-    converter_quant.optimizations = [tf.lite.Optimize.DEFAULT]
-    converter_quant.representative_dataset = representative_data_gen
-    converter_quant.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
-    converter_quant.target_spec.supported_types = [tf.int8]
-    # Just accept that observations and actions are inherently floaty, let Coral handle that on the CPU
-    converter_quant.inference_input_type = tf.float32
-    ##############converter_quant.inference_output_type = tf.uint8
-    tflite_quant_model = converter_quant.convert()
-    with open(tflite_quant_save_file, 'wb') as f:
-        f.write(tflite_quant_model)
+        print('Converting TF to Quantised TFLite...')
 
-    #print('Converting TFLite [nonquant] to Coral...')
-    #system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_save_file)
+        def representative_data_gen():
+            global obs
+            for i in range(10000):
+                yield [tf.cast(obs.sample().reshape(1, -1),tf.float32)]
+        converter_quant = tf.lite.TFLiteConverter.from_saved_model(model_prefix)
+        converter_quant.optimizations = [tf.lite.Optimize.DEFAULT]
+        converter_quant.representative_dataset = representative_data_gen
+        converter_quant.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
+        converter_quant.target_spec.supported_types = [tf.int8]
+        # Just accept that observations and actions are inherently floaty, let Coral handle that on the CPU
+        converter_quant.inference_input_type = tf.float32
+        converter_quant.inference_output_type = tf.float32
+        tflite_quant_model = converter_quant.convert()
+        with open(tflite_quant_save_file, 'wb') as f:
+            f.write(tflite_quant_model)
 
-    #print('Converting TFLite [quant] to Coral...')
-    #system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_quant_save_file)
+        #print('Converting TFLite [nonquant] to Coral...')
+        #system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_save_file)
+
+        #print('Converting TFLite [quant] to Coral...')
+        #system('edgetpu_compiler --show_operations -o ' + os.path.dirname(model_prefix) + ' ' + tflite_quant_save_file)
