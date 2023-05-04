@@ -65,6 +65,7 @@ while i < iterations:
         #    reward+=1
         if generate == 1:
             print(j)
+            print(info)
             golden.append([info,reward])
         else: 
             if not (all([x==y for x,y in zip(golden[j][0],info)]) and golden[j][1] == reward):
