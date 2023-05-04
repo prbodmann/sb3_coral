@@ -15,17 +15,17 @@ from pycoral.utils.edgetpu import make_interpreter
 Logger.setLevel(Logger.Level.TIMING)
 
 
-if len(sys.argv) < 7:
-    print("Usage: " + str(sys.argv[0]) + " <envname> <model_prefix> <seed> <iterations> <goldfile> <generate(0|1)>")
+if len(sys.argv) < 6:
+    print("Usage: " + str(sys.argv[0]) + "<model_prefix> <seed> <iterations> <goldfile> <generate(0|1)>")
     exit(0)
     #print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
 else:
-    env_name = sys.argv[1]
-    model_prefix = sys.argv[2]
-    seed=int(sys.argv[3])
-    iterations=int(sys.argv[4])
-    gold_file = sys.argv[5]
-    generate = int(sys.argv[6])
+
+    model_prefix = env_name = sys.argv[1]
+    seed=int(sys.argv[2])
+    iterations=int(sys.argv[3])
+    gold_file = sys.argv[4]
+    generate = int(sys.argv[5])
 model_save_file = model_prefix + ".tflite"
 env = gym.make(env_name)
 random.seed(seed)
