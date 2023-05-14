@@ -21,11 +21,12 @@ if len(sys.argv) < 6:
     #print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
 else:
 
-    model_prefix = env_name = sys.argv[1]
-    seed=int(sys.argv[2])
-    iterations=int(sys.argv[3])
-    gold_file = sys.argv[4]
-    generate = int(sys.argv[5])
+    env_name = sys.argv[1]
+    model_prefix = sys.argv[2]
+    seed=int(sys.argv[3])
+    iterations=int(sys.argv[4])
+    gold_file = sys.argv[5]
+    generate = int(sys.argv[6])
 model_save_file = model_prefix + ".tflite"
 env = gym.make(env_name)
 random.seed(seed)
