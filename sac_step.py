@@ -15,8 +15,8 @@ from pycoral.utils.edgetpu import make_interpreter
 Logger.setLevel(Logger.Level.TIMING)
 
 
-if len(sys.argv) < 6:
-    print("Usage: " + str(sys.argv[0]) + "<model_prefix> <seed> <iterations> <goldfile> <generate(0|1)>")
+if len(sys.argv) < 7:
+    print("Usage: " + str(sys.argv[0]) + "<env name> <model_prefix> <seed> <iterations> <goldfile> <generate(0|1)>")
     exit(0)
     #print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
 else:
