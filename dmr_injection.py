@@ -104,8 +104,8 @@ while i < num_injections:
             interpreter_dmr2.set_tensor(input_details[0]['index'], input_data_dmr2)
             interpreter_dmr1.invoke()
             interpreter_dmr2.invoke()
-            output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])
-            output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])
+            output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
+            output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
             print(output_data_dmr1)
             for index in range( len(descision_dict[env_name])):
                 if descision_dict[env_name][index] == 1:
@@ -113,7 +113,7 @@ while i < num_injections:
                 else:
                     output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             #seleciona core
-            obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(output_data_dmr)
+            obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step([output_data_dmr])
             step_counter_dmr += 1
         if not done_np:
             interpreter_not_protected.set_tensor(input_details[0]['index'], input_data_not_protected)
