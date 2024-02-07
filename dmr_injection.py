@@ -79,7 +79,7 @@ while i < num_injections:
                 wrong_array_2 = input_data_2.numpy()
                 wrong_array_2[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
 
-            input_data_not_protected = tf.convert_to_tensor(rong_array_2)
+            input_data_not_protected = tf.convert_to_tensor(wrong_array_2)
             if random.randint(0, 1) == 0:
                 input_data_dmr1 =  tf.convert_to_tensor(wrong_array)
                 input_data_dmr2 = input_data_1
