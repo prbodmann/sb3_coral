@@ -30,9 +30,8 @@ if len(sys.argv) < 5:
     #print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
 else:
     env_name = sys.argv[1]
-    model_prefix = sys.argv[2]
-    seed=int(sys.argv[3])
-    num_injections=int(sys.argv[4])
+    seed=int(sys.argv[2])
+    num_injections=int(sys.argv[3])
 
 
 rng1 = random.Random(0)
