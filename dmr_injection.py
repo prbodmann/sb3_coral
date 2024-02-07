@@ -61,7 +61,7 @@ while i < num_injections:
     step_counter_np = 0
     done_dmr=False
     done_np=False
-    random.seed(seed)
+
     env_not_protected.seed(seed)
     obs_np = env_not_protected.reset()
 
@@ -99,7 +99,7 @@ while i < num_injections:
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
-            print(output_data_dmr1)
+            #print(output_data_dmr1)
             output_data_dmr = output_data_dmr1
             for index in range( len(descision_dict[env_name])):
                 
