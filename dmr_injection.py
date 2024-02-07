@@ -25,7 +25,7 @@ limit_dict = {
 
 
 
-if len(sys.argv) < 7:
+if len(sys.argv) < 5:
     print("Usage: " + str(sys.argv[0]) + " <envname> <model_prefix> <seed> <number of injections>")
     exit(0)
     #print(" Defaulting to env: " + env_name + ", model_prefix: " + model_prefix)
