@@ -54,7 +54,7 @@ output_details = interpreter_dmr1.get_output_details()
 
 first_errouneous_step = random.randint(0, 1000)
 
-i = 0
+num_inj = 0
 
 while num_inj < num_injections:
     step_counter_dmr = 0
