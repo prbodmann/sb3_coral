@@ -88,19 +88,20 @@ while i < num_injections:
 
             input_data_not_protected = wrong_array_2
             if random.randint(0, 1) == 0:
-                interpreter_dmr1 = wrong_array
-                interpreter_dmr2 = input_data_1
+                input_data_dmr1 = wrong_array
+                input_data_dmr2 = input_data_1
             else:
-                interpreter_dmr1 = input_data_1
-                interpreter_dmr2 = wrong_array
+                input_data_dmr1 = input_data_1
+                input_data_dmr2 = wrong_array
         else:
-            interpreter_dmr1 = input_data_1
-            interpreter_dmr2 = input_data_1
+            input_data_dmr1 = input_data_1
+            input_data_dmr2 = input_data_1
+            input_data_not_protected= input_data_2
             
     
         if not done_dmr:
-            interpreter_dmr1.set_tensor(input_data_1[0]['index'], input_data_dmr1)
-            interpreter_dmr2.set_tensor(input_data_2[0]['index'], input_data_dmr2)
+            interpreter_dmr1.set_tensor(input_data_dmr1[0]['index'], input_data_dmr1)
+            interpreter_dmr2.set_tensor(input_data_dmr2[0]['index'], input_data_dmr2)
             interpreter_dmr1.invoke()
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])
@@ -114,7 +115,7 @@ while i < num_injections:
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(output_data_dmr)
             step_counter_dmr += 1
         if not done_np:
-            interpreter_not_protected.set_tensor(input_details[0]['index'], input_data_not_protected)
+            interpreter_not_protected.set_tensor(input_data_not_protected[0]['index'], input_data_not_protected)
             interpreter_not_protected.invoke()
             output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])
             obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
