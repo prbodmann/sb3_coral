@@ -61,10 +61,12 @@ output_details = interpreter_dmr1.get_output_details()
 first_errouneous_step = random.randint(0, 1000)
 
 i = 0
-step_counter_dmr = 0
-step_counter_np = 0
 
 while i < num_injections:
+    step_counter_dmr = 0
+    step_counter_np = 0
+    done_dmr=False
+    done_np=False
     random.seed(seed)
     env_not_protected.seed(seed)
     obs_np = env_not_protected.reset()
