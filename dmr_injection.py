@@ -36,7 +36,7 @@ else:
 
 
 rng1 = random.Random
-rng1.seed(0)
+
 model_save_file = model_prefix + ".tflite"
 env_dmr = gym.make(env_name)
 env_not_protected = gym.make(env_name)
