@@ -1,13 +1,12 @@
 import mujoco_py
 import gym
 import sys
-import os
 import tflite_runtime.interpreter as tflite
 import tensorflow as tf
 import random
-import time
-import pickle
-import numpy as np
+
+
+
 from pycoral.utils.edgetpu import make_interpreter
 descision_dict = {
 "Walker2d-v3": [1,	1,	1,	1,	1,	1],
@@ -76,9 +75,9 @@ while i < num_injections:
             for i in range(random.randint(0, len(input_data_1))):
                 array_inex=random.randint(0, len(input_data_1))
                 wrong_array = input_data_1
-                wrong_array[array_inex] += np.random.uniform(limit_dict[env_name][0],0,limit_dict[env_name][1])
+                wrong_array[array_inex] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
                 wrong_array_2 = input_data_2
-                wrong_array_2[array_inex] += np.random.uniform(limit_dict[env_name][0],0,limit_dict[env_name][1])
+                wrong_array_2[array_inex] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
 
             input_data_not_protected = wrong_array_2
             if random.randint(0, 1) == 0:
