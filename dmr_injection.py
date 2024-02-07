@@ -79,8 +79,8 @@ while i < num_injections:
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
         if j>=first_errouneous_step:
 
-            for i in random.randint(0, len(input_data)):
-                array_inex=random.randint(0, len(input_data))
+            for i in random.randint(0, len(input_data_1)):
+                array_inex=random.randint(0, len(input_data_1))
                 wrong_array = input_data_1
                 wrong_array[array_inex] += np.random.uniform(limit_dict[env][0],0,limit_dict[env][1])
                 wrong_array_2 = input_data_2
