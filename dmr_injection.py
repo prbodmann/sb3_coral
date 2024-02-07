@@ -56,7 +56,7 @@ first_errouneous_step = random.randint(0, 1000)
 
 i = 0
 
-while i < num_injections:
+while num_inj < num_injections:
     step_counter_dmr = 0
     step_counter_np = 0
     done_dmr=False
@@ -68,7 +68,7 @@ while i < num_injections:
     env_dmr.seed(seed)
     obs_dmr = env_dmr.reset()
     
-    for j in range(1001):
+    for j in range(1000):
         input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
         if j>=first_errouneous_step:
@@ -121,6 +121,6 @@ while i < num_injections:
         if done_np and done_dmr:            
             print(f"dmr: info {inf_dmr} num_steps: {step_counter_dmr} ----- not_proteted: info: {info_np} num_steps: {step_counter_np}")
             break
-    i+=1
+    num_inj+=1
    
 
