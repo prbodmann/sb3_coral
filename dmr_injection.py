@@ -89,10 +89,14 @@ while i < num_injections:
             input_data_not_protected = wrong_array_2
             if random.randint(0, 1) == 0:
                 interpreter_dmr1 = wrong_array
-                interpreter_dmr2 = input_data
+                interpreter_dmr2 = input_data_1
             else:
-                interpreter_dmr1 = input_data
+                interpreter_dmr1 = input_data_1
                 interpreter_dmr2 = wrong_array
+        else:
+            interpreter_dmr1 = input_data_1
+            interpreter_dmr2 = input_data_1
+            
     
         if not done_dmr:
             interpreter_dmr1.set_tensor(input_details[0]['index'], input_data_dmr1)
