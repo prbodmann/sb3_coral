@@ -37,7 +37,7 @@ else:
 
 rng1 = random.Random(0)
 
-model_save_file = model_prefix + ".tflite"
+model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
 env_dmr = gym.make(env_name)
 env_not_protected = gym.make(env_name)
 
