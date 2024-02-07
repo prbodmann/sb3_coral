@@ -4,7 +4,7 @@ import sys
 import tflite_runtime.interpreter as tflite
 import tensorflow as tf
 import random
-
+import numpy as np
 
 
 from pycoral.utils.edgetpu import make_interpreter
@@ -35,6 +35,7 @@ else:
     num_injections=int(sys.argv[4])
 
 
+rng1 = np.random.RandomState()
 model_save_file = model_prefix + ".tflite"
 env_dmr = gym.make(env_name)
 env_not_protected = gym.make(env_name)
@@ -71,13 +72,13 @@ while num_inj < num_injections:
     for j in range(1000):
         input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
-        if j>=2000:
+        if j>=first_errouneous_step:
             liest_random_index = random.sample(range(len(input_data_1)), random.randint(1, len(input_data_1)))
             for i in liest_random_index:
                 wrong_array = input_data_1.numpy()
-                wrong_array[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+                wrong_array[i] += rng1.random.uniform(limit_dict[env_name][0],limit_dict[env_name][1],1)
                 wrong_array_2 = input_data_2.numpy()
-                wrong_array_2[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+                wrong_array_2[i] += rng1.random.uniform(limit_dict[env_name][0],limit_dict[env_name][1],1)
 
             input_data_not_protected = tf.convert_to_tensor(wrong_array_2)
             if random.randint(0, 1) == 0:
