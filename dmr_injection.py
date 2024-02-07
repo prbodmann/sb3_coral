@@ -35,7 +35,7 @@ else:
     num_injections=int(sys.argv[4])
 
 
-rng1 = random.Random
+rng1 = random.Random(0)
 
 model_save_file = model_prefix + ".tflite"
 env_dmr = gym.make(env_name)
@@ -74,7 +74,7 @@ while num_inj < num_injections:
         input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
         if j>=first_errouneous_step:
-            liest_random_index = rng1.sample(range(len(input_data_1)), rng1.randint(rng1,a=1, b=len(input_data_1)) )
+            liest_random_index = rng1.sample(range(len(input_data_1)), rng1.randint(1,len(input_data_1)) )
             for i in liest_random_index:
                 wrong_array = input_data_1.numpy()
                 wrong_array[i] += rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1],1)
