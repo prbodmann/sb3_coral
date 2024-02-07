@@ -35,14 +35,15 @@ else:
     seed=int(sys.argv[3])
     num_injections=int(sys.argv[4])
 
+
 model_save_file = model_prefix + ".tflite"
 env_dmr = gym.make(env_name)
-random.seed(seed)
+
 env_dmr.seed(seed)
 obs = env_dmr.reset()
 
 env_not_protected = gym.make(env_name)
-random.seed(seed)
+
 env_not_protected.seed(seed)
 obs = env_not_protected.reset()
 
@@ -70,7 +71,7 @@ while i < num_injections:
     random.seed(seed)
     env_not_protected.seed(seed)
     obs_np = env_not_protected.reset()
-    random.seed(seed)
+
     env_dmr.seed(seed)
     obs_dmr = env_dmr.reset()
     for j in range(1001):
