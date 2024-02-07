@@ -16,7 +16,7 @@ descision_dict = {
 "HalfCheetah-v3":[]
 }
 
- limit_dict = {
+limit_dict = {
     "Walker2d-v3":[-10,10],
     "Hopper-v3":[-90,90],
     "Humanoid-v3":[-50,50],
