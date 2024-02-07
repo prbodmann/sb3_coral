@@ -82,9 +82,9 @@ while i < num_injections:
             for i in range(random.randint(0, len(input_data_1))):
                 array_inex=random.randint(0, len(input_data_1))
                 wrong_array = input_data_1
-                wrong_array[array_inex] += np.random.uniform(limit_dict[env][0],0,limit_dict[env][1])
+                wrong_array[array_inex] += random.uniform(limit_dict[env][0],0,limit_dict[env][1])
                 wrong_array_2 = input_data_2
-                wrong_array_2[array_inex] += np.random.uniform(limit_dict[env][0],0,limit_dict[env][1])
+                wrong_array_2[array_inex] += random.uniform(limit_dict[env][0],0,limit_dict[env][1])
 
             input_data_not_protected = wrong_array_2
             if random.randint(0, 1) == 0:
