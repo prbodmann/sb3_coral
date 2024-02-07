@@ -76,7 +76,7 @@ while i < num_injections:
             for i in liest_random_index:
                 wrong_array = input_data_1.numpy()
                 wrong_array[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
-                wrong_array_2 = input_data_2
+                wrong_array_2 = input_data_2.numpy()
                 wrong_array_2[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
 
             input_data_not_protected = tf.convert_to_tensor(rong_array_2)
