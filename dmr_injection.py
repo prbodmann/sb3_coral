@@ -106,7 +106,7 @@ while i < num_injections:
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])
-            for index in range( len(descision_dict[env])):
+            for index in range( len(descision_dict[env_name])):
                 if descision_dict[index] == 1:
                     output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
                 else:
