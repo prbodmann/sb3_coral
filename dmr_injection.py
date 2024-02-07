@@ -67,17 +67,17 @@ while i < num_injections:
 
     env_dmr.seed(seed)
     obs_dmr = env_dmr.reset()
+    
     for j in range(1001):
         input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
         if j>=first_errouneous_step:
-
-            for i in range(random.randint(1, len(input_data_1))):
-                array_inex=random.randint(0, len(input_data_1))
+            liest_random_index = random.sample(range(len(input_data_1)), random.randint(1, len(input_data_1)))
+            for i in liest_random_index:
                 wrong_array = input_data_1
-                wrong_array[array_inex] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+                wrong_array[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
                 wrong_array_2 = input_data_2
-                wrong_array_2[array_inex] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+                wrong_array_2[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
 
             input_data_not_protected = wrong_array_2
             if random.randint(0, 1) == 0:
