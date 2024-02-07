@@ -66,18 +66,25 @@ step_counter_dmr = 0
 step_counter_np = 0
 
 while i < num_injections:
-
+    random.seed(seed)
+    env_not_protected.seed(seed)
+    obs_dmr = env_not_protected.reset()
+    random.seed(seed)
+    env_dmr.seed(seed)
+    obs = env_dmr.reset()
     for j in range(1001):
-        input_data = tf.cast(obs.reshape(1, -1),tf.float32)
-        
+        input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
+        input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
         if j>=first_errouneous_step:
 
             for i in random.randint(0, len(input_data)):
                 array_inex=random.randint(0, len(input_data))
-                wrong_array = input_data
-                wrong_array[array_inex] += np.random.uniform(-100,0,100)
+                wrong_array = input_data_1
+                wrong_array[array_inex] += np.random.uniform(limit_dict[env][0],0,limit_dict[env][1])
+                wrong_array_2 = input_data_2
+                wrong_array_2[array_inex] += np.random.uniform(limit_dict[env][0],0,limit_dict[env][1])
 
-            input_data_not_protected = wrong_array
+            input_data_not_protected = wrong_array_2
             if random.randint(0, 1) == 0:
                 interpreter_dmr1 = wrong_array
                 interpreter_dmr2 = input_data
@@ -92,6 +99,11 @@ while i < num_injections:
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])
+            for index in range(len( len(input_data))):
+                if descision_dict[index] == 1:
+                    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
+                else:
+                    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             #seleciona core
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(output_data_dmr)
             step_counter_dmr += 1
