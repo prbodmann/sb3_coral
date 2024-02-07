@@ -55,8 +55,8 @@ interpreter_dmr2.allocate_tensors()
 interpreter_not_protected.allocate_tensors()
 
 # Get input and output tensors.
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+input_details = interpreter_dmr1.get_input_details()
+output_details = interpreter_dmr1.get_output_details()
 
 first_errouneous_step = random.randint(0, 1000)
 
