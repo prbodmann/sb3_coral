@@ -99,8 +99,8 @@ while i < num_injections:
             
     
         if not done_dmr:
-            interpreter_dmr1.set_tensor(input_details[0]['index'], input_data_dmr1)
-            interpreter_dmr2.set_tensor(input_details[0]['index'], input_data_dmr2)
+            interpreter_dmr1.set_tensor(input_data_1[0]['index'], input_data_dmr1)
+            interpreter_dmr2.set_tensor(input_data_2[0]['index'], input_data_dmr2)
             interpreter_dmr1.invoke()
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])
