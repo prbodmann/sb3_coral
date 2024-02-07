@@ -67,10 +67,10 @@ step_counter_np = 0
 while i < num_injections:
     random.seed(seed)
     env_not_protected.seed(seed)
-    obs_dmr = env_not_protected.reset()
+    obs_np = env_not_protected.reset()
     random.seed(seed)
     env_dmr.seed(seed)
-    obs = env_dmr.reset()
+    obs_dmr = env_dmr.reset()
     for j in range(1001):
         input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
