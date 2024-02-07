@@ -71,7 +71,7 @@ while num_inj < num_injections:
     for j in range(1000):
         input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
-        if j>=first_errouneous_step:
+        if j>=2000:
             liest_random_index = random.sample(range(len(input_data_1)), random.randint(1, len(input_data_1)))
             for i in liest_random_index:
                 wrong_array = input_data_1.numpy()
