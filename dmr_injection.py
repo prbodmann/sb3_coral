@@ -53,8 +53,7 @@ interpreter_not_protected = make_interpreter(model_save_file)
 interpreter_dmr1.allocate_tensors()
 interpreter_dmr2.allocate_tensors()
 interpreter_not_protected.allocate_tensors()
-lh.set_max_errors_iter(1001)
-lh.start_log_file(env_name, f"repetition:{iterations}")
+
 # Get input and output tensors.
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
