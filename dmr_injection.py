@@ -74,18 +74,18 @@ while i < num_injections:
         if j>=first_errouneous_step:
             liest_random_index = random.sample(range(len(input_data_1)), random.randint(1, len(input_data_1)))
             for i in liest_random_index:
-                wrong_array = input_data_1
+                wrong_array = input_data_1.numpy()
                 wrong_array[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
                 wrong_array_2 = input_data_2
                 wrong_array_2[i] += random.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
 
-            input_data_not_protected = wrong_array_2
+            input_data_not_protected = tf.convert_to_tensor(rong_array_2)
             if random.randint(0, 1) == 0:
-                input_data_dmr1 = wrong_array
+                input_data_dmr1 =  tf.convert_to_tensor(wrong_array)
                 input_data_dmr2 = input_data_1
             else:
                 input_data_dmr1 = input_data_1
-                input_data_dmr2 = wrong_array
+                input_data_dmr2 =  tf.convert_to_tensor(wrong_array)
         else:
             input_data_dmr1 = input_data_1
             input_data_dmr2 = input_data_1
