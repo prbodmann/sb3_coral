@@ -115,7 +115,7 @@ while i < num_injections:
                 else:
                     output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             #seleciona core
-            obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step([output_data_dmr])
+            obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(output_data_dmr)
             step_counter_dmr += 1
         if not done_np:
             interpreter_not_protected.set_tensor(input_details[0]['index'], input_data_not_protected)
