@@ -38,14 +38,8 @@ else:
 
 model_save_file = model_prefix + ".tflite"
 env_dmr = gym.make(env_name)
-
-env_dmr.seed(seed)
-obs = env_dmr.reset()
-
 env_not_protected = gym.make(env_name)
 
-env_not_protected.seed(seed)
-obs = env_not_protected.reset()
 
 interpreter_dmr1 = make_interpreter(model_save_file)
 interpreter_dmr2 = make_interpreter(model_save_file)
@@ -82,9 +76,9 @@ while i < num_injections:
             for i in range(random.randint(0, len(input_data_1))):
                 array_inex=random.randint(0, len(input_data_1))
                 wrong_array = input_data_1
-                wrong_array[array_inex] += random.uniform(limit_dict[env][0],0,limit_dict[env][1])
+                wrong_array[array_inex] += random.uniform(limit_dict[env_name][0],0,limit_dict[env_name][1])
                 wrong_array_2 = input_data_2
-                wrong_array_2[array_inex] += random.uniform(limit_dict[env][0],0,limit_dict[env][1])
+                wrong_array_2[array_inex] += random.uniform(limit_dict[env_name][0],0,limit_dict[env_name][1])
 
             input_data_not_protected = wrong_array_2
             if random.randint(0, 1) == 0:
