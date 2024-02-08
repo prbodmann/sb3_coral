@@ -76,7 +76,7 @@ while num_inj < num_injections:
         input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
         input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
         if j>=first_errouneous_step:
-            liest_random_index = rng1.sample(range(len(input_data_1)), rng1.randint(1,len(input_data_1)) )
+            liest_random_index = [rng1.randint(0,len(input_data_1)]#rng1.sample(range(len(input_data_1)),rng1.randint(0,len(input_data_1) ) )
             print(liest_random_index)
             for i in liest_random_index:
                 if rng1.random() < prob_dict[env_name][i]:
