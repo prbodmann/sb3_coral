@@ -79,7 +79,7 @@ while num_inj < num_injections:
         if j>=first_errouneous_step:
             liest_random_index = rng1.sample(range(len(input_data_1)), rng1.randint(1,len(input_data_1)) )
             for i in liest_random_index:
-                if rng1.random > prob_dict[env_name]:
+                if rng1.random < prob_dict[env_name]:
                     wrong_array = input_data_1.numpy()
                     wrong_array[i] += 100
                     wrong_array_2 = input_data_2.numpy()
@@ -115,9 +115,9 @@ while num_inj < num_injections:
             for index in range( len(descision_dict[env_name])):
                 
                 if descision_dict[env_name][index] == 1:
-                    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
-                else:
                     output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
+                else:
+                    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
             #seleciona core
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(output_data_dmr)
             step_counter_dmr += 1
