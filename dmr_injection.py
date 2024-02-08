@@ -46,13 +46,13 @@ def insert_fault(output_rl):
     global rng1, first_errouneous_step
 
     liest_random_index = rng1.sample(range(len(output_rl)),rng1.randint(1,len(output_rl) ) )
-    print(liest_random_index)
+   
     wrong_array = output_rl
     for i in liest_random_index:
         if rng1.random() < prob_dict[env_name][i]:
-            wrong_array[i] +=  100
+            wrong_array[i] +=  0
         else: 
-            wrong_array[i] -= 100
+            wrong_array[i] -= 0
     return wrong_array
 
 model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
