@@ -49,10 +49,10 @@ def insert_fault(output_rl):
     print(liest_random_index)
     for i in liest_random_index:
         if rng1.random() < prob_dict[env_name][i]:
-            wrong_array = output_rl.numpy()
+            wrong_array = output_rl
             wrong_array[0][i] += 100
         else:
-            wrong_array = output_rl.numpy()
+            wrong_array = output_rl
             wrong_array[0][i] -= 100
     return tf.convert_to_tensor(wrong_array)
 
