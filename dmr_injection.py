@@ -45,7 +45,7 @@ first_errouneous_step = random.randint(0, 1000)
 def insert_fault(output_rl):
     global rng1, first_errouneous_step
 
-    liest_random_index = rng1.sample(range(len(output_rl)),random.randint(0,len(output_rl) ) )
+    liest_random_index = rng1.sample(range(len(output_rl)),random.randint(1,len(output_rl) ) )
     print(liest_random_index)
     wrong_array = output_rl
     for i in liest_random_index:
