@@ -96,8 +96,8 @@ while num_inj < num_injections:
             interpreter_dmr2.set_tensor(input_details[0]['index'], input_dmr)
             interpreter_dmr1.invoke()
             interpreter_dmr2.invoke()
-            output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0].numpy()
-            output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0].numpy()
+            output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
+            output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
                 if rng1.randint(0, 1) == 0:
                     output_data_dmr1 =  insert_fault(output_data_dmr1) 
@@ -117,7 +117,7 @@ while num_inj < num_injections:
             input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
             interpreter_not_protected.set_tensor(input_details[0]['index'], input_np)
             interpreter_not_protected.invoke()
-            output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0].numpy()
+            output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0]
             output_data_not_protected=insert_fault(output_data_not_protected)  
             obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
             step_counter_np += 1
