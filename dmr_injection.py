@@ -109,16 +109,16 @@ while num_inj < num_injections:
             output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
             for index in range( len(prob_dict[env_name])):
                 if prob_dict[env_name][index] > 0.5:
-                    output_data_dmr[index] = min(output_data_dmr1[0][index],output_data_dmr2[0][index])
+                    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
                 else:
-                    output_data_dmr[index] = max(output_data_dmr1[0][index],output_data_dmr2[0][index])
+                    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
         if not done_np:
             input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
             interpreter_not_protected.set_tensor(input_details[0]['index'], input_data_not_protected)
             interpreter_not_protected.invoke()
-            output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])
+            output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0]
             output_data_not_protected=insert_fault(output_data_not_protected)  
             obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
             step_counter_np += 1
