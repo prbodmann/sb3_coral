@@ -117,7 +117,7 @@ while num_inj < num_injections:
             input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
             interpreter_not_protected.set_tensor(input_details[0]['index'], input_np)
             interpreter_not_protected.invoke()
-            output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0].numpy()
+            output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0]
             output_data_not_protected=insert_fault(output_data_not_protected)  
             obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
             step_counter_np += 1
