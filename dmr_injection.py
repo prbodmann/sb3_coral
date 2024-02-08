@@ -103,10 +103,10 @@ while num_inj < num_injections:
             if j>first_errouneous_step:
                 if rng1.randint(0, 1) == 0:
                     output_data_dmr1 =  insert_fault(output_data_dmr1) 
-                    output_data_dmr2 = input_dmr
+                    output_data_dmr2 = output_data_dmr2
                 else:
-                    output_data_dmr1 = input_dmr
-                    output_data_dmr2 =  insert_fault(output_data_dmr1) 
+                    output_data_dmr1 = output_data_dmr1
+                    output_data_dmr2 =  insert_fault(output_data_dmr2) 
             output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
             for index in range( len(prob_dict[env_name])):
                 if prob_dict[env_name][index] > 0.5:
