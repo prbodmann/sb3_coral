@@ -82,7 +82,7 @@ while num_inj < num_injections:
     step_counter_np = 0
     done_dmr=False
     done_np=False
-    random.seed(0)
+    #random.seed(0)
     env_not_protected.seed(seed)
     obs_np = env_not_protected.reset()
 
