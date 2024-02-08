@@ -46,7 +46,7 @@ def insert_fault(output_rl):
     global rng1, first_errouneous_step
 
     liest_random_index = rng1.sample(range(len(output_rl)),random.randint(1,len(output_rl) ) )
-    print(liest_random_index)
+    #print(liest_random_index)
     wrong_array = output_rl
     for i in liest_random_index:
         if rng1.random() < prob_dict[env_name][i]:
