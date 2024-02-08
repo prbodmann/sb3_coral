@@ -8,17 +8,11 @@ from pycoral.utils.edgetpu import make_interpreter
 
 
 
-          
-
-descision_dict = {
-"Walker2d-v3": [0.7,	0.6,	0.81, 0.76,	0.58,	0.81],
-"Hopper-v3":[-1,1,1],
-"Humanoid-v3":[1,	1,	1,	1,	1,	1,	-1,	-1,	-1,	1,	1,	-1,	1,	-1,	-1,	-1,	-1],
-"HalfCheetah-v3":[]
-}
-
 prob_dict = {
-    "Walker2d-v3": [0.7,	0.6,	0.81, 0.76,	0.58,	0.81]
+    "Walker2d-v3": [0.7,	0.6,	0.81, 0.76,	0.58,	0.81],
+    "Hopper-v3":[0.21,0.8,0.79],
+    "Humanoid-v3":[0.67,	0.61,	0.59,	0.60,	0.52,	0.53,	0.26,	0.47,	0.41,	0.60	0.59,	0.25,	0.55,	0.28,	0.30,	0.10,	0.34],
+    "HalfCheetah-v3":[]
 }
 
 limit_dict = {
@@ -81,7 +75,7 @@ while num_inj < num_injections:
     step_counter_np = 0
     done_dmr=False
     done_np=False
-    random.seed(seed)
+    random.seed(0)
     env_not_protected.seed(seed)
     obs_np = env_not_protected.reset()
 
