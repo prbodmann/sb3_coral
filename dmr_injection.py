@@ -50,12 +50,10 @@ def insert_fault(output_rl):
     wrong_array = output_rl
     for i in liest_random_index:
         if rng1.random() < prob_dict[env_name][i]:
-            wrong_array = output_rl
-            wrong_array[i] += 100
-        else:
-            wrong_array = output_rl
+            wrong_array[i] +=  100
+        else: 
             wrong_array[i] -= 100
-    return tf.convert_to_tensor(wrong_array)
+    return wrong_array
 
 model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
 env_dmr = gym.make(env_name)
