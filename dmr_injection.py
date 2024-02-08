@@ -38,7 +38,7 @@ else:
     num_injections=int(sys.argv[3])
 
 
-rng1 = random.Random(0)
+rng1 = random.Random()
 
 model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
 env_dmr = gym.make(env_name)
