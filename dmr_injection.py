@@ -4,10 +4,12 @@ import sys
 import tflite_runtime.interpreter as tflite
 import tensorflow as tf
 import random
-
-
-
 from pycoral.utils.edgetpu import make_interpreter
+
+
+
+          
+
 descision_dict = {
 "Walker2d-v3": [0.7,	0.6,	0.81, 0.76,	0.58,	0.81],
 "Hopper-v3":[-1,1,1],
@@ -38,6 +40,21 @@ else:
     num_injections=int(sys.argv[3])
 
 rng1 = random.Random()
+first_errouneous_step = random.randint(0, 1000)
+
+def insert_fault(output_rl):
+    global rng1, first_errouneous_step
+
+    liest_random_index = rng1.sample(range(len(output_rl)),rng1.randint(0,len(output_rl) ) )
+    print(liest_random_index)
+    for i in liest_random_index:
+        if rng1.random() < prob_dict[env_name][i]:
+            wrong_array = output_rl.numpy()
+            wrong_array[0][i] += 100
+        else:
+            wrong_array = output_rl.numpy()
+            wrong_array[0][i] -= 100
+    return tf.convert_to_tensor(wrong_array)
 
 model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
 env_dmr = gym.make(env_name)
@@ -56,7 +73,7 @@ interpreter_not_protected.allocate_tensors()
 input_details = interpreter_dmr1.get_input_details()
 output_details = interpreter_dmr1.get_output_details()
 
-first_errouneous_step = random.randint(0, 1000)
+
 
 num_inj = 0
 
@@ -73,35 +90,9 @@ while num_inj < num_injections:
     obs_dmr = env_dmr.reset()
     
     for j in range(1000):
-        input_data_1 = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
-        input_data_2 = tf.cast(obs_np.reshape(1, -1),tf.float32)
-        if j>=first_errouneous_step:
-            liest_random_index = [rng1.randint(0,len(input_data_1[0]))]#rng1.sample(range(len(input_data_1)),rng1.randint(0,len(input_data_1) ) )
-            print(liest_random_index)
-            for i in liest_random_index:
-                if rng1.random() < prob_dict[env_name][i]:
-                    wrong_array = input_data_1.numpy()
-                    wrong_array[0][i] += 100
-                    wrong_array_2 = input_data_2.numpy()
-                    wrong_array_2[0][i] += 100
-                else:
-                    wrong_array = input_data_1.numpy()
-                    wrong_array[0][i] -= 100
-                    wrong_array_2 = input_data_2.numpy()
-                    wrong_array_2[0][i] -= 100
-
-            input_data_not_protected = tf.convert_to_tensor(wrong_array_2)
-            if rng1.randint(0, 1) == 0:
-                input_data_dmr1 =  tf.convert_to_tensor(wrong_array)
-                input_data_dmr2 = input_data_1
-            else:
-                input_data_dmr1 = input_data_1
-                input_data_dmr2 =  tf.convert_to_tensor(wrong_array)
-        else:
-            input_data_dmr1 = input_data_1
-            input_data_dmr2 = input_data_1
-            input_data_not_protected= input_data_2
-            
+        input_dmr = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
+        input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
+       
     
         if not done_dmr:
             interpreter_dmr1.set_tensor(input_details[0]['index'], input_data_dmr1)
@@ -110,21 +101,26 @@ while num_inj < num_injections:
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
-            #print(output_data_dmr1)
-            output_data_dmr = output_data_dmr1
-            for index in range( len(descision_dict[env_name])):
-                
-                if descision_dict[env_name][index] == 1:
-                    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
+            if j>first_errouneous_step:
+                if rng1.randint(0, 1) == 0:
+                    output_data_dmr1 =  insert_fault(output_data_dmr1) 
+                    output_data_dmr2 = input_dmr
                 else:
-                    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
-            #seleciona core
-            obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(output_data_dmr)
-            step_counter_dmr += 1
+                    output_data_dmr1 = input_dmr
+                    output_data_dmr2 =  insert_fault(output_data_dmr1) 
+            output_data_dmr1 = output_data_dmr1.numpy() # to create a array that will receive the output of the dmr selection
+            for index in range( len(prob_dict[env_name])):
+                if prob_dict[env_name][index] > 0.5:
+                    output_data_dmr[index] = min(output_data_dmr1[0][index],output_data_dmr2[0][index])
+                else:
+                    output_data_dmr[index] = max(output_data_dmr1[0][index],output_data_dmr2[0][index])
+            obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
+            step_counter_dmr += 1  
         if not done_np:
             interpreter_not_protected.set_tensor(input_details[0]['index'], input_data_not_protected)
             interpreter_not_protected.invoke()
             output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])
+            output_data_not_protected=insert_fault(output_data_not_protected)  
             obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
             step_counter_np += 1
 
