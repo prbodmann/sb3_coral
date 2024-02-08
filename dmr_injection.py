@@ -79,7 +79,7 @@ while num_inj < num_injections:
         if j>=first_errouneous_step:
             liest_random_index = rng1.sample(range(len(input_data_1)), rng1.randint(1,len(input_data_1)) )
             for i in liest_random_index:
-                if rng1.random < prob_dict[env_name]:
+                if rng1.random > prob_dict[env_name]:
                     wrong_array = input_data_1.numpy()
                     wrong_array[i] += 100
                     wrong_array_2 = input_data_2.numpy()
