@@ -34,7 +34,7 @@ else:
     num_injections=int(sys.argv[3])
 
 rng1 = random.Random()
-first_errouneous_step = rng1.randint(0, 1000)
+
 
 def insert_fault(output_rl):
     global rng1, first_errouneous_step
@@ -71,6 +71,7 @@ output_details = interpreter_dmr1.get_output_details()
 num_inj = 0
 
 while num_inj < num_injections:
+    first_errouneous_step = rng1.randint(0, 1000)
     step_counter_dmr = 0
     step_counter_np = 0
     done_dmr=False
