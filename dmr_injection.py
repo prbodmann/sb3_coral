@@ -50,9 +50,9 @@ def insert_fault(output_rl):
     wrong_array = output_rl
     for i in liest_random_index:
         if rng1.random() < prob_dict[env_name][i]:
-            wrong_array[i] +=  0
+            wrong_array[i] +=  rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
         else: 
-            wrong_array[i] -= 0
+            wrong_array[i] -= rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
     return wrong_array
 
 model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
