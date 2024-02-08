@@ -39,17 +39,17 @@ else:
     seed=int(sys.argv[2])
     num_injections=int(sys.argv[3])
 
-rng1 = random.Random()
+random = random.Random()
 first_errouneous_step = random.randint(0, 1000)
 
 def insert_fault(output_rl):
-    global rng1, first_errouneous_step
+    global random, first_errouneous_step
 
-    liest_random_index = rng1.sample(range(len(output_rl)),random.randint(1,len(output_rl) ) )
+    liest_random_index = random.sample(range(len(output_rl)),random.randint(1,len(output_rl) ) )
     #print(liest_random_index)
     wrong_array = output_rl
     for i in liest_random_index:
-        if rng1.random() < prob_dict[env_name][i]:
+        if random.random() < prob_dict[env_name][i]:
             wrong_array[i] +=  100
         else: 
             wrong_array[i] -= 100
@@ -99,7 +99,7 @@ while num_inj < num_injections:
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
-                if rng1.randint(0, 1) == 0:
+                if random.randint(0, 1) == 0:
                     output_data_dmr1 =  insert_fault(output_data_dmr1) 
                     output_data_dmr2 = output_data_dmr2
                 else:
