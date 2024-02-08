@@ -90,13 +90,11 @@ while num_inj < num_injections:
     obs_dmr = env_dmr.reset()
     
     for j in range(1000):
-        input_dmr = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
-        input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
-       
-    
+   
         if not done_dmr:
-            interpreter_dmr1.set_tensor(input_details[0]['index'], input_data_dmr1)
-            interpreter_dmr2.set_tensor(input_details[0]['index'], input_data_dmr2)
+            input_dmr = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
+            interpreter_dmr1.set_tensor(input_details[0]['index'], input_dmr)
+            interpreter_dmr2.set_tensor(input_details[0]['index'], input_dmr)
             interpreter_dmr1.invoke()
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
@@ -117,6 +115,7 @@ while num_inj < num_injections:
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
         if not done_np:
+            input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
             interpreter_not_protected.set_tensor(input_details[0]['index'], input_data_not_protected)
             interpreter_not_protected.invoke()
             output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])
