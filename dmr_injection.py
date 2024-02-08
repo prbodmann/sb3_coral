@@ -106,7 +106,7 @@ while num_inj < num_injections:
                 else:
                     output_data_dmr1 = input_dmr
                     output_data_dmr2 =  insert_fault(output_data_dmr1) 
-            output_data_dmr1 = output_data_dmr1.numpy() # to create a array that will receive the output of the dmr selection
+            output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
             for index in range( len(prob_dict[env_name])):
                 if prob_dict[env_name][index] > 0.5:
                     output_data_dmr[index] = min(output_data_dmr1[0][index],output_data_dmr2[0][index])
