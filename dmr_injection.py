@@ -16,7 +16,7 @@ prob_dict = {
 }
 
 limit_dict = {
-    "Walker2d-v3":[-10,10],
+    "Walker2d-v3":[-100,100],
     "Hopper-v3":[-90,90],
     "Humanoid-v3":[-50,50],
     "HalfCheetah-v3":[-10,10]
