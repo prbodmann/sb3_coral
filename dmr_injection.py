@@ -119,7 +119,7 @@ while num_inj < num_injections:
 
 
         if done_np and done_dmr:            
-            print(f"dmr: info {inf_dmr} num_steps: {step_counter_dmr} ----- not_proteted: info: {info_np} num_steps: {step_counter_np}")
+            print(f"First errouneous step: {first_errouneous_step} ----- dmr: info {inf_dmr} num_steps: {step_counter_dmr} ----- not_proteted: info: {info_np} num_steps: {step_counter_np}")
             break
     num_inj+=1
    
