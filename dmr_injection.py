@@ -116,7 +116,7 @@ while num_inj < num_injections:
             step_counter_dmr += 1  
         if not done_np:
             input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
-            interpreter_not_protected.set_tensor(input_details[0]['index'], input_data_not_protected)
+            interpreter_not_protected.set_tensor(input_details[0]['index'], input_np)
             interpreter_not_protected.invoke()
             output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0]
             output_data_not_protected=insert_fault(output_data_not_protected)  
