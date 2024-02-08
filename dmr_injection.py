@@ -9,10 +9,14 @@ import random
 
 from pycoral.utils.edgetpu import make_interpreter
 descision_dict = {
-"Walker2d-v3": [1,	1,	1,	1,	1,	1],
+"Walker2d-v3": [0.7,	0.6,	0.81, 0.76,	0.58,	0.81],
 "Hopper-v3":[-1,1,1],
 "Humanoid-v3":[1,	1,	1,	1,	1,	1,	-1,	-1,	-1,	1,	1,	-1,	1,	-1,	-1,	-1,	-1],
 "HalfCheetah-v3":[]
+}
+
+prob_dict = {
+    "Walker2d-v3": [0.7,	0.6,	0.81, 0.76,	0.58,	0.81]
 }
 
 limit_dict = {
@@ -75,10 +79,16 @@ while num_inj < num_injections:
         if j>=first_errouneous_step:
             liest_random_index = rng1.sample(range(len(input_data_1)), rng1.randint(1,len(input_data_1)) )
             for i in liest_random_index:
-                wrong_array = input_data_1.numpy()
-                wrong_array[i] += rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
-                wrong_array_2 = input_data_2.numpy()
-                wrong_array_2[i] += rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+                if rng1.random < prob_dict[env_name]:
+                    wrong_array = input_data_1.numpy()
+                    wrong_array[i] += 100
+                    wrong_array_2 = input_data_2.numpy()
+                    wrong_array_2[i] += 100
+                else:
+                    wrong_array = input_data_1.numpy()
+                    wrong_array[i] -= 100
+                    wrong_array_2 = input_data_2.numpy()
+                    wrong_array_2[i] -= 100
 
             input_data_not_protected = tf.convert_to_tensor(wrong_array_2)
             if rng1.randint(0, 1) == 0:
