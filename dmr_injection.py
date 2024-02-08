@@ -37,7 +37,6 @@ else:
     seed=int(sys.argv[2])
     num_injections=int(sys.argv[3])
 
-
 rng1 = random.Random()
 
 model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
@@ -66,7 +65,7 @@ while num_inj < num_injections:
     step_counter_np = 0
     done_dmr=False
     done_np=False
-    random.seed(seed)
+    random.seed(0)
     env_not_protected.seed(seed)
     obs_np = env_not_protected.reset()
 
