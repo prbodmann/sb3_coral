@@ -87,6 +87,7 @@ while num_inj < num_injections:
     env_dmr.seed(seed)
     obs_dmr = env_dmr.reset()
     select_core=rng1.randint(0, 1)
+    output_data_dmr = [0]*len(prob_dict[env_name])
     for j in range(1000):
         previous_selected_core = rng1.randint(0, 1)
         if j>first_errouneous_step:
@@ -109,7 +110,7 @@ while num_inj < num_injections:
                     output_data_dmr2 =  insert_fault(output_data_dmr2,error_mag,error_dist)
             #print(output_data_dmr1 - output_data_dmr2)
 
-            output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
+             # to create a array that will receive the output of the dmr selection
             count_0=0
             count_1=1
             for index in range( len(prob_dict[env_name])):
