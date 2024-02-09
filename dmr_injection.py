@@ -82,9 +82,9 @@ while num_inj < num_injections:
 
     env_dmr.seed(seed)
     obs_dmr = env_dmr.reset()
-    
+    select_core=rng1.randint(0, 1)
     for j in range(1000):
-   
+        
         if not done_dmr:
             input_dmr = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
             interpreter_dmr1.set_tensor(input_details[0]['index'], input_dmr)
@@ -94,7 +94,7 @@ while num_inj < num_injections:
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
-                if rng1.randint(0, 1) == 0:
+                if  select_core== 0:
                     output_data_dmr1 =  insert_fault(output_data_dmr1) 
                     output_data_dmr2 = output_data_dmr2
                 else:
@@ -103,9 +103,9 @@ while num_inj < num_injections:
             output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
             for index in range( len(prob_dict[env_name])):
                 if prob_dict[env_name][index] > 0.5:
-                    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
-                else:
                     output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
+                else:
+                    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
         if not done_np:
