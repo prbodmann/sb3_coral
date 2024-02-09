@@ -104,12 +104,12 @@ while num_inj < num_injections:
             for index in range( len(prob_dict[env_name])):
                 #print (output_data_dmr1)
                 #print (output_data_dmr2)
-                output_data_dmr[index] = (output_data_dmr1[index] + output_data_dmr2[index])/2
+                #output_data_dmr[index] = (output_data_dmr1[index] + output_data_dmr2[index])/2
                 #print (output_data_dmr)
-                #if prob_dict[env_name][index] < 0.5:
-                #    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
-                #else:
-                #    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
+                if prob_dict[env_name][index] > 0.5:
+                    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
+                else:
+                    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
         if not done_np:
