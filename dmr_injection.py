@@ -135,9 +135,9 @@ while num_inj < num_injections:
                     else:
                         count_0 +=1 
                         count_1 +=1
-            if  output_data_dmr1 > output_data_dmr2:
+            if  count_0 > count_1:
                 output_data_dmr = output_data_dmr1
-            elif output_data_dmr1 < output_data_dmr2:
+            elif count_0 < count_1:
                 output_data_dmr = output_data_dmr2
             else:
                 if rng1.randint(0, 1) == 0:
