@@ -118,9 +118,9 @@ while num_inj < num_injections:
                 #print (output_data_dmr)
                 if prob_dict[env_name][index] > 0.5:
                     #output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
-                    if output_data_dmr1[index] > output_data_dmr2[index]:
+                    if output_data_dmr1[index] < output_data_dmr2[index]:
                         count_0 += 1
-                    elif output_data_dmr1[index] < output_data_dmr2[index]:
+                    elif output_data_dmr1[index] > output_data_dmr2[index]:
                         count_1 += 1
                     else:
                         count_0 +=1 
@@ -128,9 +128,9 @@ while num_inj < num_injections:
                     
                 else:
                     #output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
-                    if output_data_dmr1[index] < output_data_dmr2[index]:
+                    if output_data_dmr1[index] > output_data_dmr2[index]:
                         count_0 += 1
-                    elif output_data_dmr1[index] > output_data_dmr2[index]:
+                    elif output_data_dmr1[index] < output_data_dmr2[index]:
                         count_1 += 1
                     else:
                         count_0 +=1 
