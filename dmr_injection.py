@@ -104,7 +104,10 @@ while num_inj < num_injections:
                     output_data_dmr2 = output_data_dmr2
                 else:
                     output_data_dmr1 = output_data_dmr1
-                    output_data_dmr2 =  insert_fault(output_data_dmr2,error_mag) 
+                    output_data_dmr2 =  insert_fault(output_data_dmr2,error_mag)
+            print(output_data_dmr1)
+            print(output_data_dmr2)
+            print() 
             output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
             for index in range( len(prob_dict[env_name])):
                 #print (output_data_dmr1)
