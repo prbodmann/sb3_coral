@@ -143,10 +143,10 @@ while num_inj < num_injections:
                 output_data_dmr = output_data_dmr2
             else:
                 if rng1.randint(0, 1) == 0:
-                    print(f"worng core: {select_core}, core selected: core 0")
+                    print(f"worng core: {select_core}, core selected: core 0 equal")
                     output_data_dmr = output_data_dmr1
                 else:
-                    print(f"worng core: {select_core}, core selected: core 1")
+                    print(f"worng core: {select_core}, core selected: core 1 equal")
                     output_data_dmr = output_data_dmr2
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
