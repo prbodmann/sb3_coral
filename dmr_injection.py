@@ -38,7 +38,7 @@ rng1 = random.Random()
 
 def insert_fault(output_rl,error_mag):
     global rng1, first_errouneous_step
-
+    return output_rl
     liest_random_index = rng1.sample(range(len(output_rl)),1 )#rng1.sample(range(len(output_rl)),rng1.randint(1,len(output_rl) ) )
    
     wrong_array = output_rl
