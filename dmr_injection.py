@@ -137,11 +137,11 @@ while num_inj < num_injections:
                         count_0 +=1 
                         count_1 +=1
             if  count_0 > count_1:
-                print(f"worng core: {select_core}, core selected: core 0")
+                #print(f"worng core: {select_core}, core selected: core 0")
                 output_data_dmr = output_data_dmr1
                 previous_selected_core = 0
             elif count_0 < count_1:
-                print(f"worng core: {select_core}, core selected: core 1")
+                #print(f"worng core: {select_core}, core selected: core 1")
                 output_data_dmr = output_data_dmr2
                 previous_selected_core = 1
             else:
