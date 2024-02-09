@@ -36,7 +36,7 @@ else:
 rng1 = random.Random()
 
 
-def insert_fault(output_rl):
+def insert_fault(output_rl,error_mag):
     global rng1, first_errouneous_step
 
     liest_random_index = rng1.sample(range(len(output_rl)),rng1.randint(1,len(output_rl) ) )
@@ -47,10 +47,10 @@ def insert_fault(output_rl):
         #print(error_dist)
         if error_dist < prob_dict[env_name][i]:
             #print("sum")
-            wrong_array[i] +=  rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+            wrong_array[i] +=  error_mag
         else:
             #print("sub") 
-            wrong_array[i] -= rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+            wrong_array[i] -= error_mag
     return wrong_array
 
 model_save_file = "./"+env_name+"_quant_edgetpu.tflite"
@@ -88,7 +88,8 @@ while num_inj < num_injections:
     obs_dmr = env_dmr.reset()
     select_core=rng1.randint(0, 1)
     for j in range(1000):
-        
+        if j>first_errouneous_step:
+            error_mag = rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
         if not done_dmr:
             input_dmr = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
             interpreter_dmr1.set_tensor(input_details[0]['index'], input_dmr)
