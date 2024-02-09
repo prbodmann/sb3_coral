@@ -40,7 +40,7 @@ def insert_fault(output_rl,error_mag,error_dist):
     global rng1, first_errouneous_step
    
     liest_random_index = rng1.sample(range(len(output_rl)),1 )#rng1.sample(range(len(output_rl)),rng1.randint(1,len(output_rl) ) )
-   
+    print(liest_random_index)
     wrong_array = output_rl
     for i in liest_random_index:
         
@@ -88,6 +88,7 @@ while num_inj < num_injections:
     obs_dmr = env_dmr.reset()
     select_core=rng1.randint(0, 1)
     for j in range(1000):
+        previous_selected_core = rng1.randint(0, 1)
         if j>first_errouneous_step:
             error_mag = rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
             error_dist = rng1.random()
@@ -138,15 +139,17 @@ while num_inj < num_injections:
             if  count_0 > count_1:
                 print(f"worng core: {select_core}, core selected: core 0")
                 output_data_dmr = output_data_dmr1
+                previous_selected_core = 0
             elif count_0 < count_1:
                 print(f"worng core: {select_core}, core selected: core 1")
                 output_data_dmr = output_data_dmr2
+                previous_selected_core = 1
             else:
-                if rng1.randint(0, 1) == 0:
-                    print(f"worng core: {select_core}, core selected: core 0 equal")
+                if previous_selected_core == 0:
+                    #print(f"worng core: {select_core}, core selected: core 0 equal")
                     output_data_dmr = output_data_dmr1
                 else:
-                    print(f"worng core: {select_core}, core selected: core 1 equal")
+                    #print(f"worng core: {select_core}, core selected: core 1 equal")
                     output_data_dmr = output_data_dmr2
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
