@@ -36,14 +36,14 @@ else:
 rng1 = random.Random()
 
 
-def insert_fault(output_rl,error_mag):
+def insert_fault(output_rl,error_mag,error_dist):
     global rng1, first_errouneous_step
    
     liest_random_index = rng1.sample(range(len(output_rl)),1 )#rng1.sample(range(len(output_rl)),rng1.randint(1,len(output_rl) ) )
    
     wrong_array = output_rl
     for i in liest_random_index:
-        error_dist = rng1.random()
+        
         #print(error_dist)
         if error_dist < prob_dict[env_name][i]:
             #print("sum")
@@ -90,6 +90,7 @@ while num_inj < num_injections:
     for j in range(1000):
         if j>first_errouneous_step:
             error_mag = rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
+            error_dist = rng1.random()
         if not done_dmr:
             input_dmr = tf.cast(obs_dmr.reshape(1, -1),tf.float32)
             interpreter_dmr1.set_tensor(input_details[0]['index'], input_dmr)
@@ -100,11 +101,11 @@ while num_inj < num_injections:
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
                 if  select_core== 0:
-                    output_data_dmr1 =  insert_fault(output_data_dmr1,error_mag) 
+                    output_data_dmr1 =  insert_fault(output_data_dmr1,error_mag,error_dist) 
                     output_data_dmr2 = output_data_dmr2
                 else:
                     output_data_dmr1 = output_data_dmr1
-                    output_data_dmr2 =  insert_fault(output_data_dmr2,error_mag)
+                    output_data_dmr2 =  insert_fault(output_data_dmr2,error_mag,error_dist)
             print(output_data_dmr1 - output_data_dmr2)
            
             print() 
@@ -126,7 +127,7 @@ while num_inj < num_injections:
             interpreter_not_protected.invoke()
             output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
-                output_data_not_protected=insert_fault(output_data_not_protected,error_mag)  
+                output_data_not_protected=insert_fault(output_data_not_protected,error_mag,error_dist)  
             obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
             step_counter_np += 1
 
