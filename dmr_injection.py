@@ -112,7 +112,7 @@ while num_inj < num_injections:
 
              # to create a array that will receive the output of the dmr selection
             count_0=0
-            count_1=1
+            count_1=0
             for index in range( len(prob_dict[env_name])):
                 #print (output_data_dmr1)
                 #print (output_data_dmr2)
