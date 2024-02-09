@@ -44,10 +44,12 @@ def insert_fault(output_rl):
     wrong_array = output_rl
     for i in liest_random_index:
         error_dist = rng1.random()
-        print(error_dist)
+        #print(error_dist)
         if error_dist < prob_dict[env_name][i]:
+            print("sum")
             wrong_array[i] +=  rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
-        else: 
+        else:
+            print("sub") 
             wrong_array[i] -= rng1.uniform(limit_dict[env_name][0],limit_dict[env_name][1])
     return wrong_array
 
