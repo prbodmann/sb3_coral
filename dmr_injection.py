@@ -100,11 +100,11 @@ while num_inj < num_injections:
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
                 if  select_core== 0:
-                    output_data_dmr1 =  insert_fault(output_data_dmr1) 
+                    output_data_dmr1 =  insert_fault(output_data_dmr1,error_mag) 
                     output_data_dmr2 = output_data_dmr2
                 else:
                     output_data_dmr1 = output_data_dmr1
-                    output_data_dmr2 =  insert_fault(output_data_dmr2) 
+                    output_data_dmr2 =  insert_fault(output_data_dmr2,error_mag) 
             output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
             for index in range( len(prob_dict[env_name])):
                 #print (output_data_dmr1)
@@ -123,7 +123,7 @@ while num_inj < num_injections:
             interpreter_not_protected.invoke()
             output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
-                output_data_not_protected=insert_fault(output_data_not_protected)  
+                output_data_not_protected=insert_fault(output_data_not_protected,error_mag)  
             obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
             step_counter_np += 1
 
