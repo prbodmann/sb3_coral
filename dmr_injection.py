@@ -146,8 +146,9 @@ while num_inj < num_injections:
                 output_data_dmr = output_data_dmr2
                 previous_selected_core = 1
             else:
-                print(f"dmr 0 {output_data_dmr1 - output_data_dmr2}")
-                input()
+                if j>first_errouneous_step:
+                    print(f"dmr 0 {output_data_dmr1 - output_data_dmr2}")
+                #input()
                 if previous_selected_core == 0:
                     #print(f"worng core: {select_core}, core selected: core 0 equal")
                     output_data_dmr = output_data_dmr1
