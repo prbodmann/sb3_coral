@@ -118,7 +118,7 @@ while num_inj < num_injections:
                 #print (output_data_dmr)
                 if prob_dict[env_name][index] > 0.5:
                     #output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
-]                   if output_data_dmr1[index] > output_data_dmr2[index]:
+                    if output_data_dmr1[index] > output_data_dmr2[index]:
                         count_0 += 1
                     else if output_data_dmr1[index] < output_data_dmr2[index]:
                         count_1 += 1
