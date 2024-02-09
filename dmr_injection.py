@@ -109,15 +109,41 @@ while num_inj < num_injections:
             #print(output_data_dmr1 - output_data_dmr2)
 
             output_data_dmr = output_data_dmr1 # to create a array that will receive the output of the dmr selection
+            count_0=0
+            count_1=1
             for index in range( len(prob_dict[env_name])):
                 #print (output_data_dmr1)
                 #print (output_data_dmr2)
                 #output_data_dmr[index] = (output_data_dmr1[index] + output_data_dmr2[index])/2
                 #print (output_data_dmr)
                 if prob_dict[env_name][index] > 0.5:
-                    output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
+                    #output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
+]                   if output_data_dmr1[index] > output_data_dmr2[index]:
+                        count_0 += 1
+                    else if output_data_dmr1[index] < output_data_dmr2[index]:
+                        count_1 += 1
+                    else:
+                        count_0 +=1 
+                        count_1 +=1
+                    
                 else:
-                    output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
+                    #output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
+                    if output_data_dmr1[index] < output_data_dmr2[index]:
+                        count_0 += 1
+                    else if output_data_dmr1[index] > output_data_dmr2[index]:
+                        count_1 += 1
+                    else:
+                        count_0 +=1 
+                        count_1 +=1
+            if  output_data_dmr1 > output_data_dmr2:
+                output_data_dmr = output_data_dmr1
+            else if output_data_dmr1 < output_data_dmr2:
+                output_data_dmr = output_data_dmr2
+            else:
+                if rng1.randint(0, 1) == 0:
+                    output_data_dmr = output_data_dmr1
+                else:
+                    output_data_dmr = output_data_dmr2
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
         if not done_np:
