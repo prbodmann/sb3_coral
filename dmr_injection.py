@@ -81,11 +81,13 @@ while num_inj < num_injections:
     done_dmr=False
     done_np=False
     random.seed(0)
+
     env_not_protected.seed(seed)
     obs_np = env_not_protected.reset()
 
     env_dmr.seed(seed)
     obs_dmr = env_dmr.reset()
+
     select_core=rng1.randint(0, 1)
     output_data_dmr = [0]*len(prob_dict[env_name])
     for j in range(1000):
