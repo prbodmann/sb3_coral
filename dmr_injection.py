@@ -22,7 +22,7 @@ limit_dict = {
     "HalfCheetah-v3":10
 }
 
-
+COUNTER_VALUE = 1000
 
 if len(sys.argv) < 4:
     print("Usage: " + str(sys.argv[0]) + " <envname> <seed> <number of injections>")
@@ -70,7 +70,7 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
 
     global previous_selected_core
     if np.all(output_data_dmr1 == output_data_dmr2):
-        return output_data_dmr1
+        return output_data_dmr1, COUNTER_VALUE
     if counter > 0:
         if previous_selected_core == 0:
             #print(f"worng core: {select_core}, core selected: core 0 equal")
@@ -80,7 +80,7 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
             output_data_dmr = output_data_dmr2
         counter -= 1
         return output_data_dmr, counter
-    counter = 1000
+    counter = COUNTER_VALUE
     count_0=0
     count_1=0
     output_data_dmr = [0]*len(prob_dict[env_name])
@@ -166,7 +166,7 @@ while num_inj < num_injections:
     previous_selected_core=rng1.randint(0, 1)
     select_core=rng1.randint(0, 1)
     output_data_dmr = [0]*len(prob_dict[env_name])
-    counter = 1000
+ 
     for j in range(1000):
         previous_selected_core = rng1.randint(0, 1)
 
