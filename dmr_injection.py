@@ -164,6 +164,7 @@ while num_inj < num_injections:
 
     select_core=rng1.randint(0, 1)
     output_data_dmr = [0]*len(prob_dict[env_name])
+    counter = 1000
     for j in range(1000):
         previous_selected_core = rng1.randint(0, 1)
 
@@ -188,7 +189,7 @@ while num_inj < num_injections:
             #print(output_data_dmr1 - output_data_dmr2)
 
              # to create a array that will receive the output of the dmr selection
-            output_data_dmr=select_copy(output_data_dmr1,output_data_dmr2)
+            output_data_dmr, counter =select_copy(output_data_dmr1,output_data_dmr2, counter)
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
         if not done_np:
