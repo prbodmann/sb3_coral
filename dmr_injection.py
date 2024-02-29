@@ -186,10 +186,10 @@ while num_inj < num_injections:
     random.seed(0)
 
     env_not_protected.seed(seed)     
-    obs_np, _ = env_not_protected.reset()
+    obs_np = env_not_protected.reset()
 
     env_dmr.seed(seed)
-    obs_dmr, _= env_dmr.reset()
+    obs_dmr= env_dmr.reset()
 
     select_core=rng1.randint(0, 1)
     output_data_dmr = [0]*len(prob_dict[env_name])
@@ -217,7 +217,7 @@ while num_inj < num_injections:
 
              # to create a array that will receive the output of the dmr selection
             output_data_dmr=select_copy(output_data_dmr1,output_data_dmr2)
-            obs_dmr, reward_dmr, done_dmr, someting, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
+            obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
         if not done_np:
             input_np = tf.cast(obs_np.reshape(1, -1),tf.float32)
@@ -226,7 +226,7 @@ while num_inj < num_injections:
             output_data_not_protected = interpreter_not_protected.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
                 output_data_not_protected=insert_fault(output_data_not_protected)  
-            obs_np, reward_np, done_np, someting,info_np = env_not_protected.step(output_data_not_protected)
+            obs_np, reward_np, done_np, info_np = env_not_protected.step(output_data_not_protected)
             step_counter_np += 1
 
 
