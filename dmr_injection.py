@@ -69,7 +69,7 @@ def insert_fault(output_rl):
 def select_copy(output_data_dmr1,output_data_dmr2,counter):
 
     global previous_selected_core
-    if np.all(output_data_dmr1 output_data_dmr2):
+    if np.all(output_data_dmr1 == output_data_dmr2):
         return output_data_dmr1
     if counter > 0:
         if previous_selected_core == 0:
