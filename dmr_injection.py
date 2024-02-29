@@ -77,7 +77,7 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
             #print(f"worng core: {select_core}, core selected: core 1 equal")
             output_data_dmr = output_data_dmr2
         counter -= 1
-        return output_data_dmr
+        return output_data_dmr, counter
     counter = 100
     count_0=0
     count_1=0
@@ -127,7 +127,7 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
             #print(f"worng core: {select_core}, core selected: core 1 equal")
             output_data_dmr = output_data_dmr2
     
-    return output_data_dmr
+    return output_data_dmr, counter
 env_dmr = gym.make(env_name)
 env_not_protected = gym.make(env_name)
 
@@ -178,6 +178,7 @@ while num_inj < num_injections:
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
             if j>first_errouneous_step:
+                counter = 0
                 if  select_core== 0:
                     output_data_dmr1 =  insert_fault(output_data_dmr1) 
                     output_data_dmr2 = output_data_dmr2
