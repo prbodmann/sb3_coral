@@ -232,7 +232,7 @@ while num_inj < num_injections:
 
         if done_np and done_dmr:            
             print(f"{first_errouneous_step} {step_counter_dmr} {step_counter_np} ")
-            print(f"{obs_dmr} {obs_np} ")
+            print(f"{inf_dmr} {info_np} ")
             print()
             break
     num_inj+=1
