@@ -161,9 +161,9 @@ env_dmr = gym.make(env_name)
 env_not_protected = gym.make(env_name)
 
 
-interpreter_dmr1 = create_interpreter(env_name,cpu=True)
-interpreter_dmr2 = create_interpreter(env_name,cpu=True)
-interpreter_not_protected = create_interpreter(env_name,cpu=True)
+interpreter_dmr1 = create_interpreter(env_name,cpu=False)
+interpreter_dmr2 = create_interpreter(env_name,cpu=False)
+interpreter_not_protected = create_interpreter(env_name,cpu=False)
 
 interpreter_dmr1.allocate_tensors()
 interpreter_dmr2.allocate_tensors()
@@ -178,18 +178,18 @@ output_details = interpreter_dmr1.get_output_details()
 num_inj = 0
 
 while num_inj < num_injections:
-    first_errouneous_step = rng1.randint(0, 511)
+    first_errouneous_step = rng1.randint(0, 1000)
     step_counter_dmr = 0
     step_counter_np = 0
     done_dmr=False
     done_np=False
     random.seed(0)
 
-    #env_not_protected.seed(seed)
-    obs_np, _ = env_not_protected.reset(seed=seed)
+    env_not_protected.seed(seed)     
+    obs_np, _ = env_not_protected.reset()
 
-    #env_dmr.seed(seed)
-    obs_dmr, _= env_dmr.reset(seed=seed)
+    env_dmr.seed(seed)
+    obs_dmr, _= env_dmr.reset()
 
     select_core=rng1.randint(0, 1)
     output_data_dmr = [0]*len(prob_dict[env_name])
@@ -233,6 +233,7 @@ while num_inj < num_injections:
         if done_np and done_dmr:            
             print(f"{first_errouneous_step} {step_counter_dmr} {step_counter_np} ")
             print(f"{obs_dmr} {obs_np} ")
+            print()
             break
     num_inj+=1
    
