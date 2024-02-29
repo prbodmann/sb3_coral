@@ -191,7 +191,7 @@ while num_inj < num_injections:
             #print(output_data_dmr1 - output_data_dmr2)
 
              # to create a array that will receive the output of the dmr selection
-            print(counter)
+            #print(counter)
             output_data_dmr, counter =select_copy(output_data_dmr1,output_data_dmr2, counter)
             obs_dmr, reward_dmr, done_dmr, inf_dmr = env_dmr.step(tf.convert_to_tensor(output_data_dmr))
             step_counter_dmr += 1  
