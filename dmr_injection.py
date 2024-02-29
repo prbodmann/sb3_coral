@@ -70,13 +70,14 @@ def select_copy(output_data_dmr1,output_data_dmr2):
     global previous_selected_core
     count_0=0
     count_1=0
+    output_data_dmr = [0]*len(prob_dict[env_name])
     for index in range( len(prob_dict[env_name])):
         #print (output_data_dmr1)
         #print (output_data_dmr2)
         #output_data_dmr[index] = (output_data_dmr1[index] + output_data_dmr2[index])/2
         #print (output_data_dmr)
         if prob_dict[env_name][index] > 0.5:
-            #output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
+            output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
             if output_data_dmr1[index] < output_data_dmr2[index]:
                 count_0 += 1
             elif output_data_dmr1[index] > output_data_dmr2[index]:
@@ -86,7 +87,7 @@ def select_copy(output_data_dmr1,output_data_dmr2):
                 count_1 +=1
             
         else:
-            #output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
+            output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             if output_data_dmr1[index] > output_data_dmr2[index]:
                 count_0 += 1
             elif output_data_dmr1[index] < output_data_dmr2[index]:
@@ -94,6 +95,7 @@ def select_copy(output_data_dmr1,output_data_dmr2):
             else:
                 count_0 +=1 
                 count_1 +=1
+    return output_data_dmr
     if  count_0 > count_1:
         #print(f"worng core: {select_core}, core selected: core 0")
         output_data_dmr = output_data_dmr1
@@ -112,50 +114,7 @@ def select_copy(output_data_dmr1,output_data_dmr2):
         else:
             #print(f"worng core: {select_core}, core selected: core 1 equal")
             output_data_dmr = output_data_dmr2
-    count_0=0
-    count_1=0
-    for index in range( len(prob_dict[env_name])):
-        #print (output_data_dmr1)
-        #print (output_data_dmr2)
-        #output_data_dmr[index] = (output_data_dmr1[index] + output_data_dmr2[index])/2
-        #print (output_data_dmr)
-        if prob_dict[env_name][index] > 0.5:
-            #output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
-            if output_data_dmr1[index] < output_data_dmr2[index]:
-                count_0 += 1
-            elif output_data_dmr1[index] > output_data_dmr2[index]:
-                count_1 += 1
-            else:
-                count_0 +=1 
-                count_1 +=1
-            
-        else:
-            #output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
-            if output_data_dmr1[index] > output_data_dmr2[index]:
-                count_0 += 1
-            elif output_data_dmr1[index] < output_data_dmr2[index]:
-                count_1 += 1
-            else:
-                count_0 +=1 
-                count_1 +=1
-    if  count_0 > count_1:
-        #print(f"worng core: {select_core}, core selected: core 0")
-        output_data_dmr = output_data_dmr1
-        previous_selected_core = 0
-    elif count_0 < count_1:
-        #print(f"worng core: {select_core}, core selected: core 1")
-        output_data_dmr = output_data_dmr2
-        previous_selected_core = 1
-    else:
-        #if j>first_errouneous_step:
-        #    print(f"dmr 0 {output_data_dmr1 - output_data_dmr2}")
-        #input()
-        if previous_selected_core == 0:
-            #print(f"worng core: {select_core}, core selected: core 0 equal")
-            output_data_dmr = output_data_dmr1
-        else:
-            #print(f"worng core: {select_core}, core selected: core 1 equal")
-            output_data_dmr = output_data_dmr2
+    
     return output_data_dmr
 env_dmr = gym.make(env_name)
 env_not_protected = gym.make(env_name)
