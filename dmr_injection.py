@@ -166,7 +166,7 @@ while num_inj < num_injections:
     previous_selected_core=rng1.randint(0, 1)
     select_core=rng1.randint(0, 1)
     output_data_dmr = [0]*len(prob_dict[env_name])
- 
+    counter = COUNTER_VALUE
     for j in range(1000):
         previous_selected_core = rng1.randint(0, 1)
 
