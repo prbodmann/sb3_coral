@@ -71,15 +71,15 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
     global previous_selected_core
     if np.all(output_data_dmr1 == output_data_dmr2):
         return output_data_dmr1, COUNTER_VALUE
-    if counter > 0:
-        if previous_selected_core == 0:
-            #print(f"worng core: {select_core}, core selected: core 0 equal")
-            output_data_dmr = output_data_dmr1
-        else:
-            #print(f"worng core: {select_core}, core selected: core 1 equal")
-            output_data_dmr = output_data_dmr2
-        counter -= 1
-        return output_data_dmr, counter
+    #if counter > 0:
+    #    if previous_selected_core == 0:
+    #        #print(f"worng core: {select_core}, core selected: core 0 equal")
+    #        output_data_dmr = output_data_dmr1
+    #    else:
+    #        #print(f"worng core: {select_core}, core selected: core 1 equal")
+    #        output_data_dmr = output_data_dmr2
+    #    counter -= 1
+    #    return output_data_dmr, counter
     counter = COUNTER_VALUE
     count_0=0
     count_1=0
