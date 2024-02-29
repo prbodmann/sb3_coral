@@ -161,7 +161,7 @@ while num_inj < num_injections:
 
     env_dmr.seed(seed)
     obs_dmr= env_dmr.reset()
-
+    previous_selected_core=rng1.randint(0, 1)
     select_core=rng1.randint(0, 1)
     output_data_dmr = [0]*len(prob_dict[env_name])
     counter = 1000
