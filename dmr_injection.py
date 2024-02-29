@@ -178,8 +178,10 @@ while num_inj < num_injections:
             interpreter_dmr2.invoke()
             output_data_dmr1 = interpreter_dmr1.get_tensor(output_details[0]['index'])[0]
             output_data_dmr2 = interpreter_dmr2.get_tensor(output_details[0]['index'])[0]
-            if j>first_errouneous_step:
+            if j == first_errouneous_step:
                 counter = 0
+            if j>first_errouneous_step:
+                
                 if  select_core== 0:
                     output_data_dmr1 =  insert_fault(output_data_dmr1) 
                     output_data_dmr2 = output_data_dmr2
