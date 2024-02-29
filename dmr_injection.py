@@ -66,8 +66,19 @@ def insert_fault(output_rl):
             wrong_array[i] -= error_mag
     return wrong_array
 
-def select_copy(output_data_dmr1,output_data_dmr2):
+def select_copy(output_data_dmr1,output_data_dmr2,counter):
+
     global previous_selected_core
+    if counter > 0:
+        if previous_selected_core == 0:
+            #print(f"worng core: {select_core}, core selected: core 0 equal")
+            output_data_dmr = output_data_dmr1
+        else:
+            #print(f"worng core: {select_core}, core selected: core 1 equal")
+            output_data_dmr = output_data_dmr2
+        counter -= 1
+        return output_data_dmr
+    counter = 100
     count_0=0
     count_1=0
     output_data_dmr = [0]*len(prob_dict[env_name])
@@ -77,7 +88,7 @@ def select_copy(output_data_dmr1,output_data_dmr2):
         #output_data_dmr[index] = (output_data_dmr1[index] + output_data_dmr2[index])/2
         #print (output_data_dmr)
         if prob_dict[env_name][index] > 0.5:
-            output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
+            #output_data_dmr[index] = min(output_data_dmr1[index],output_data_dmr2[index])
             if output_data_dmr1[index] < output_data_dmr2[index]:
                 count_0 += 1
             elif output_data_dmr1[index] > output_data_dmr2[index]:
@@ -87,7 +98,8 @@ def select_copy(output_data_dmr1,output_data_dmr2):
                 count_1 +=1
             
         else:
-            output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
+            
+            #output_data_dmr[index] = max(output_data_dmr1[index],output_data_dmr2[index])
             if output_data_dmr1[index] > output_data_dmr2[index]:
                 count_0 += 1
             elif output_data_dmr1[index] < output_data_dmr2[index]:
@@ -95,7 +107,7 @@ def select_copy(output_data_dmr1,output_data_dmr2):
             else:
                 count_0 +=1 
                 count_1 +=1
-    return output_data_dmr
+    #return output_data_dmr
     if  count_0 > count_1:
         #print(f"worng core: {select_core}, core selected: core 0")
         output_data_dmr = output_data_dmr1
