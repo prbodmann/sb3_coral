@@ -78,7 +78,7 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
             output_data_dmr = output_data_dmr2
         counter -= 1
         return output_data_dmr, counter
-    counter = 10
+    counter = 1000
     count_0=0
     count_1=0
     output_data_dmr = [0]*len(prob_dict[env_name])
