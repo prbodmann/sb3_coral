@@ -111,11 +111,11 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
                 count_1 +=1
     #return output_data_dmr
     if  count_0 > count_1:
-        #print(f"worng core: {select_core}, core selected: core 0")
+        print(f"core selected: core 0")
         output_data_dmr = output_data_dmr1
         previous_selected_core = 0
     elif count_0 < count_1:
-        #print(f"worng core: {select_core}, core selected: core 1")
+        print(f"core selected: core 1")
         output_data_dmr = output_data_dmr2
         previous_selected_core = 1
     else:
@@ -123,10 +123,10 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
         #    print(f"dmr 0 {output_data_dmr1 - output_data_dmr2}")
         #input()
         if previous_selected_core == 0:
-            #print(f"equal worng core: {select_core}, core selected: core 0 equal")
+            print(f"core selected: core 0 equal")
             output_data_dmr = output_data_dmr1
         else:
-            #print(f"equal worng core: {select_core}, core selected: core 1 equal")
+            print(f"core selected: core 1 equal")
             output_data_dmr = output_data_dmr2
     
     return output_data_dmr, counter
