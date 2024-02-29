@@ -123,10 +123,10 @@ def select_copy(output_data_dmr1,output_data_dmr2,counter):
         #    print(f"dmr 0 {output_data_dmr1 - output_data_dmr2}")
         #input()
         if previous_selected_core == 0:
-            #print(f"worng core: {select_core}, core selected: core 0 equal")
+            print(f"equal worng core: {select_core}, core selected: core 0 equal")
             output_data_dmr = output_data_dmr1
         else:
-            #print(f"worng core: {select_core}, core selected: core 1 equal")
+            print(f"equal worng core: {select_core}, core selected: core 1 equal")
             output_data_dmr = output_data_dmr2
     
     return output_data_dmr, counter
